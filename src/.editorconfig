@@ -1,0 +1,41 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Ignore paths
+[*]
+indent_style = unset
+indent_size = unset
+quote_type = unset
+
+# Tab indentation (no size specified)
+# [Makefile]
+# indent_style = tab
+
+# Markdown files config
+# [*.md]
+# max_line_length = off
+# trim_trailing_whitespace = false
+
+# my preferances for source files
+[**.{js,jsx}]
+# Set default charset
+charset = utf-8
+
+# 4 space indentation
+indent_style = space
+indent_size = 4
+
+# Unix-style newlines with a newline ending every file
+end_of_line = lf
+insert_final_newline = true
+
+quote_type = single
+max_line_length = 120
+trim_trailing_whitespace = true
+
+# Matches the exact files either package.json or .eslintrc.yml
+# [{package.json,.eslintrc.yml}]
+# indent_style = space
+# indent_size = 2
