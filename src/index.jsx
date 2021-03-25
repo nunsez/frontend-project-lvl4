@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 
 // @ts-ignore
 import gon from 'gon';
-import App from './App/App.jsx';
+import App from './components/App.jsx';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
