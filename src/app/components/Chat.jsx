@@ -1,16 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { useFormik } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
+import { addMessage } from '../reducers/messages.js';
 
 const InputTextForm = () => {
+    const dispatch = useDispatch();
+
     const f = useFormik({
         initialValues: {
             body: '',
         },
-        onSubmit: (_values, { resetForm }) => {
+        onSubmit: ({ body }, { resetForm }) => {
+            const message = { body, id: _.uniqueId() };
+
+            dispatch(addMessage({ message }));
             resetForm({});
         },
     });
+
     return (
         <div className="mt-auto">
             <form noValidate className="" onSubmit={f.handleSubmit}>
@@ -35,29 +44,42 @@ const InputTextForm = () => {
     );
 };
 
-const renderMessage = () => null;
-
-const renderMessagesBox = (messages) => (
-    <div id="messages-box" className="chat-messages overflow-auto mb-3">
-        {messages.map(renderMessage)}
-    </div>
-);
-
-const Chat = ({ messages }) => (
-    <div className="col h-100 border-right">
-        <div className="d-flex flex-column h-100">
-            {renderMessagesBox(messages)}
-            {InputTextForm()}
+const MessagesBox = ({ messages }) => {
+    const renderMessage = ({ body, id }) => (
+        <div key={id} className="text-break">
+            <b>Name</b>
+            {': '}
+            {body}
         </div>
-    </div>
-);
+    );
 
-Chat.defaultProps = {
+    return (
+        <div id="messages-box" className="chat-messages overflow-auto mb-3">
+            {messages.map(renderMessage)}
+        </div>
+    );
+};
+
+MessagesBox.defaultProps = {
     messages: [],
 };
 
-Chat.propTypes = {
+MessagesBox.propTypes = {
     messages: PropTypes.arrayOf(PropTypes.object),
+};
+
+const Chat = () => {
+    const messages = useSelector((state) => state.messagesInfo.messages);
+    // const filteredMessages = messages.filter((m) => m.channelId === currentChannelId);
+
+    return (
+        <div className="col h-100 border-right">
+            <div className="d-flex flex-column h-100">
+                <MessagesBox messages={messages} />
+                <InputTextForm />
+            </div>
+        </div>
+    );
 };
 
 export default Chat;

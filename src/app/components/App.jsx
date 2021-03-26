@@ -5,14 +5,14 @@ import Chat from './Chat.jsx';
 
 const App = ({ gon }) => {
     const [ModalInfo, setModalInfo] = useState({ state: 'hide', title: 'Add a channel' });
-    const { channels, messages, currentChannelId } = gon;
+    const { channels, currentChannelId } = gon; // !! Should import messages!
     const name = 'Your Name';
     document.title = `Slack: ${name}`;
 
     return (
         <div className="row h-100 pb-3">
             <ChannelList currentChannelId={currentChannelId} channels={channels} setModalInfo={setModalInfo} />
-            <Chat messages={messages.filter((m) => m.channelId === currentChannelId)} />
+            <Chat />
             {ModalInfo.state === 'show' && <Modal setModalInfo={setModalInfo} ModalInfo={ModalInfo} />}
         </div>
     );

@@ -2,14 +2,18 @@
 
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 
 // @ts-ignore
 import gon from 'gon';
-import App from './components/App.jsx';
+import rootReducer from './app/reducers';
+import App from './app/components/App.jsx';
+import { replaceChannels, setCurrentChannelId } from './app/reducers/channels.js';
+import { replaceMessages } from './app/reducers/messages.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-
 import '../assets/application.scss';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -38,4 +42,20 @@ container.append(card);
 console.log('it works!');
 console.log('gon', gon);
 
-render(<App gon={gon} />, container);
+const store = configureStore({
+    reducer: rootReducer,
+});
+
+const { channels, messages, currentChannelId } = gon;
+
+store.dispatch(replaceChannels({ channels }));
+store.dispatch(replaceMessages({ messages }));
+store.dispatch(setCurrentChannelId({ currentChannelId }));
+
+/* eslint-disable comma-dangle */
+render(
+    <Provider store={store}>
+        <App gon={gon} />
+    </Provider>,
+    container
+);
