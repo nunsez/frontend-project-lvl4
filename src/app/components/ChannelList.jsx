@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cn from 'classnames';
+import { useSelector } from 'react-redux';
 
 const renderChannelHeader = (setModalInfo) => {
     const handleAddChannel = () => {
@@ -17,7 +17,9 @@ const renderChannelHeader = (setModalInfo) => {
     );
 };
 
-const ChannelList = ({ channels, currentChannelId, setModalInfo }) => {
+const ChannelList = ({ setModalInfo }) => {
+    const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
+
     const renderChannelList = () => (
         <ul className="nav flex-column nav-pills nav-fill">
             {channels.map((channel) => {
@@ -44,16 +46,6 @@ const ChannelList = ({ channels, currentChannelId, setModalInfo }) => {
             {renderChannelList()}
         </div>
     );
-};
-
-ChannelList.defaultProps = {
-    channels: [{ id: 1, name: 'general', removable: false }],
-    currentChannelId: 1,
-};
-
-ChannelList.propTypes = {
-    channels: PropTypes.arrayOf(PropTypes.object),
-    currentChannelId: PropTypes.number,
 };
 
 export default ChannelList;

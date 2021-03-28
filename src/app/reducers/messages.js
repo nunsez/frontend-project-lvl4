@@ -1,23 +1,20 @@
 /* eslint-disable no-param-reassign */
 
+import gon from 'gon';
 import { createSlice } from '@reduxjs/toolkit';
 
 const messagesSlice = createSlice({
     name: 'messagesInfo',
     initialState: {
-        messages: [],
+        messages: gon.messages,
     },
     reducers: {
-        replaceMessages: (state, { payload: { messages } }) => {
-            state.messages = messages;
-        },
-        addMessage: (state, { payload: { message } }) => {
-            state.messages.push(message);
+        addMessage: (state, { payload: { attributes } }) => {
+            state.messages.push(attributes);
         },
     },
 });
 
-// Action creators are generated for each case reducer function
-export const { addMessage, replaceMessages } = messagesSlice.actions;
+export const { addMessage } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Modal from './Modal.jsx';
 import ChannelList from './ChannelList.jsx';
 import Chat from './Chat.jsx';
+import NicknameContext from '../nicknameContext.js';
 
-const App = ({ gon }) => {
+const App = () => {
     const [ModalInfo, setModalInfo] = useState({ state: 'hide', title: 'Add a channel' });
-    const { channels, currentChannelId } = gon; // !! Should import messages!
-    const name = 'Your Name';
-    document.title = `Slack: ${name}`;
+    const nickname = useContext(NicknameContext);
+
+    document.title = `Slack | ${nickname}`;
 
     return (
         <div className="row h-100 pb-3">
-            <ChannelList currentChannelId={currentChannelId} channels={channels} setModalInfo={setModalInfo} />
+            <ChannelList setModalInfo={setModalInfo} />
             <Chat />
             {ModalInfo.state === 'show' && <Modal setModalInfo={setModalInfo} ModalInfo={ModalInfo} />}
         </div>

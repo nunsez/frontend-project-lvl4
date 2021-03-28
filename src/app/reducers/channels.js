@@ -1,12 +1,13 @@
 /* eslint-disable no-param-reassign */
 
+import gon from 'gon';
 import { createSlice } from '@reduxjs/toolkit';
 
 const channelsSlice = createSlice({
     name: 'channelsInfo',
     initialState: {
-        channels: [],
-        currentChannelId: null,
+        channels: gon.channels,
+        currentChannelId: gon.currentChannelId,
     },
     reducers: {
         addChannel: (state, { payload: { channel } }) => {
@@ -16,18 +17,12 @@ const channelsSlice = createSlice({
         removeChannel: (state, { payload: { id } }) => (
             state.channels.filter((c) => (c.removable ? c.id !== id : true))
         ),
-        replaceChannels: (state, { payload: { channels } }) => {
-            state.channels = channels;
-        },
         setCurrentChannelId: (state, { payload: { id } }) => {
             state.currentChannelId = id;
         },
     },
 });
 
-// prettier-ignore
-export const {
-    addChannel, removeChannel, replaceChannels, setCurrentChannelId,
-} = channelsSlice.actions;
+export const { addChannel, removeChannel, setCurrentChannelId } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

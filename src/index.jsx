@@ -9,8 +9,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import gon from 'gon';
 import rootReducer from './app/reducers';
 import App from './app/components/App.jsx';
-import { replaceChannels, setCurrentChannelId } from './app/reducers/channels.js';
-import { replaceMessages } from './app/reducers/messages.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -46,16 +44,10 @@ const store = configureStore({
     reducer: rootReducer,
 });
 
-const { channels, messages, currentChannelId } = gon;
-
-store.dispatch(replaceChannels({ channels }));
-store.dispatch(replaceMessages({ messages }));
-store.dispatch(setCurrentChannelId({ currentChannelId }));
-
 /* eslint-disable comma-dangle */
 render(
     <Provider store={store}>
-        <App gon={gon} />
+        <App />
     </Provider>,
     container
 );
