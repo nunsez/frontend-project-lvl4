@@ -1,6 +1,6 @@
 {
   "name": "frontend-project-lvl4",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "src/index.jsx",
   "engines": {
@@ -56,7 +56,8 @@
     "react-redux": "^7.2.2",
     "regenerator-runtime": "^0.13.7",
     "socket.io": "^3.0.3",
-    "socket.io-client": "^4.0.0"
+    "socket.io-client": "^4.0.0",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",

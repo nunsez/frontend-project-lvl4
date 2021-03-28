@@ -2,35 +2,37 @@ import React, { useContext, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import cn from 'classnames';
+import * as yup from 'yup';
 import { useSelector } from 'react-redux';
 import NicknameContext from '../nicknameContext.js';
 import routes from '../../routes.js';
 
+const validationSchema = yup.object().shape({
+    body: yup.string().trim().required('Required'),
+});
+
 const InputTextForm = () => {
     const nickname = useContext(NicknameContext);
+    const inputEl = useRef();
+
+    useEffect(() => {
+        inputEl.current.focus();
+    }, []);
 
     const f = useFormik({
         initialValues: {
             body: '',
         },
-        validateOnChange: true,
-        validate: ({ body }) => {
-            const errors = {};
-            if (!body) {
-                errors.body = 'Required';
-            } else {
-                f.isValid = true;
-            }
-
-            return errors;
-        },
+        validateOnBlur: false,
+        validationSchema,
         onSubmit: async ({ body }, { resetForm }) => {
-            const attributes = { body, nickname };
+            const attributes = { body: body.trim(), nickname };
             const path = routes.channelMessagesPath(1);
 
             try {
                 await axios.post(path, { data: { attributes } });
                 resetForm();
+                inputEl.current.focus();
             } catch (e) {
                 console.log('AXIOS ERROR', e);
             }
@@ -47,6 +49,7 @@ const InputTextForm = () => {
                     <input
                         name="body"
                         aria-label="body"
+                        ref={inputEl}
                         className={inputClass}
                         value={f.values.body}
                         onChange={f.handleChange}
@@ -58,7 +61,7 @@ const InputTextForm = () => {
                             Submit
                         </button>
                     </div>
-                    {f.errors && <div className="invalid-feedback">{f.errors.body}</div>}
+                    {f.errors.body && <div className="invalid-feedback">{f.errors.body}</div>}
                 </div>
             </form>
         </div>
