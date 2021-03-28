@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import cn from 'classnames';
 import { useSelector } from 'react-redux';
 import NicknameContext from '../nicknameContext.js';
 import routes from '../../routes.js';
@@ -11,6 +12,17 @@ const InputTextForm = () => {
     const f = useFormik({
         initialValues: {
             body: '',
+        },
+        validateOnChange: true,
+        validate: ({ body }) => {
+            const errors = {};
+            if (!body) {
+                errors.body = 'Required';
+            } else {
+                f.isValid = true;
+            }
+
+            return errors;
         },
         onSubmit: async ({ body }, { resetForm }) => {
             const attributes = { body, nickname };
@@ -25,14 +37,17 @@ const InputTextForm = () => {
         },
     });
 
+    const inputGroupClass = cn('input-group', { 'has-validation': f.errors.body });
+    const inputClass = cn('form-control', { 'is-invalid': f.errors.body });
+
     return (
         <div className="mt-auto">
             <form noValidate className="" onSubmit={f.handleSubmit}>
-                <div className="input-group">
+                <div className={inputGroupClass}>
                     <input
                         name="body"
                         aria-label="body"
-                        className="form-control"
+                        className={inputClass}
                         value={f.values.body}
                         onChange={f.handleChange}
                         onBlur={f.handleBlur}
@@ -43,7 +58,7 @@ const InputTextForm = () => {
                             Submit
                         </button>
                     </div>
-                    {/* <div className="invalid-feedback">Required</div> */}
+                    {f.errors && <div className="invalid-feedback">{f.errors.body}</div>}
                 </div>
             </form>
         </div>
