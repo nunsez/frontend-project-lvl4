@@ -26,7 +26,7 @@ const InputTextForm = () => {
         validateOnBlur: false,
         validationSchema,
         onSubmit: async ({ body }, { resetForm }) => {
-            const attributes = { body: body.trim(), nickname };
+            const attributes = { body, nickname };
             const path = routes.channelMessagesPath(1);
 
             try {
