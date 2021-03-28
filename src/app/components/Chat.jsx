@@ -1,16 +1,9 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { io } from 'socket.io-client';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import { addMessage } from '../reducers/messages.js';
+import { useSelector } from 'react-redux';
 import NicknameContext from '../nicknameContext.js';
 import routes from '../../routes.js';
-
-const socket = io();
-
-// socket event logger
-socket.onAny(console.log);
 
 const InputTextForm = () => {
     const nickname = useContext(NicknameContext);
@@ -59,27 +52,11 @@ const InputTextForm = () => {
 
 const MessagesBox = () => {
     const messagesBoxEl = useRef();
-    const dispatch = useDispatch();
     const messages = useSelector(({ messagesInfo }) => messagesInfo.messages);
 
     useEffect(() => {
         messagesBoxEl.current.scrollTop = messagesBoxEl.current.scrollHeight;
     }, [messages]);
-
-    useEffect(() => {
-        socket.on('newMessage', ({ data }) => {
-            const { type, /* id, */ attributes } = data;
-
-            if (type === 'messages') {
-                dispatch(addMessage({ attributes }));
-            }
-        });
-
-        return () => {
-            console.log('cleanup socket listener');
-            socket.removeAllListeners();
-        };
-    }, []);
 
     const renderMessage = ({ body, id, nickname }) => (
         <div key={id} className="text-break">
