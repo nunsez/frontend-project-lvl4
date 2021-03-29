@@ -1,6 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrentChannelId } from '../reducers/channels';
 
 const renderChannelHeader = (setModalInfo) => {
     const handleAddChannel = () => {
@@ -17,7 +18,12 @@ const renderChannelHeader = (setModalInfo) => {
     );
 };
 
+const handleSwitchChannel = ({ id, dispatch }) => () => {
+    dispatch(setCurrentChannelId({ id }));
+};
+
 const ChannelsList = ({ setModalInfo }) => {
+    const dispatch = useDispatch();
     const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
 
     const renderChannelList = () => (
@@ -31,7 +37,7 @@ const ChannelsList = ({ setModalInfo }) => {
 
                 return (
                     <li key={id} className="nav-item">
-                        <button type="button" className={btnClass}>
+                        <button type="button" className={btnClass} onClick={handleSwitchChannel({ id, dispatch })}>
                             {name}
                         </button>
                     </li>

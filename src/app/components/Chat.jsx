@@ -12,6 +12,7 @@ const validationSchema = yup.object().shape({
 });
 
 const InputTextForm = () => {
+    const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
     const nickname = useContext(NicknameContext);
     const inputEl = useRef();
 
@@ -27,7 +28,7 @@ const InputTextForm = () => {
         validationSchema,
         onSubmit: async ({ body }, { resetForm }) => {
             const attributes = { body, nickname };
-            const path = routes.channelMessagesPath(1);
+            const path = routes.channelMessagesPath(currentChannelId);
 
             try {
                 await axios.post(path, { data: { attributes } });
@@ -70,11 +71,13 @@ const InputTextForm = () => {
 
 const MessagesBox = () => {
     const messagesBoxEl = useRef();
-    const messages = useSelector(({ messagesInfo }) => messagesInfo.messages);
+    const allMessages = useSelector(({ messagesInfo }) => messagesInfo.messages);
+    const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
+    const activeChannelMessages = allMessages.filter((m) => m.channelId === currentChannelId);
 
     useEffect(() => {
         messagesBoxEl.current.scrollTop = messagesBoxEl.current.scrollHeight;
-    }, [messages]);
+    }, [activeChannelMessages]);
 
     const renderMessage = ({ body, id, nickname }) => (
         <div key={id} className="text-break">
@@ -86,7 +89,7 @@ const MessagesBox = () => {
 
     return (
         <div ref={messagesBoxEl} id="messages-box" className="chat-messages overflow-auto mb-3">
-            {messages.map(renderMessage)}
+            {activeChannelMessages.map(renderMessage)}
         </div>
     );
 };
