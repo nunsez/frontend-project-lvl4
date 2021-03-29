@@ -12,29 +12,24 @@ const socket = io();
 
 const App = () => {
     const dispatch = useDispatch();
+    const websocketEventsMapping = {
+        messages: (attributes) => dispatch(addMessage({ attributes })),
+        channels: (attributes) => dispatch(addChannel({ attributes })),
+    };
 
     useEffect(() => {
-        // socket event logger
         socket.onAny((event, { data }) => {
+            websocketEventsMapping[data.type](data.attributes);
             console.log(event, 'data: ', data, 'type: ', data.type);
         });
-        socket.on('newMessage', ({ data: { type, attributes } }) => {
-            if (type === 'messages') {
-                dispatch(addMessage({ attributes }));
-            }
-        });
-        socket.on('newChannel', ({ data: { type, attributes } }) => {
-            if (type === 'channels') {
-                dispatch(addChannel({ attributes }));
-            }
-        });
+
         return () => socket.removeAllListeners();
     }, []);
 
     const nickname = useContext(NicknameContext);
     const modalInfo = useSelector((state) => state.modalInfo);
 
-    document.title = `Slack | ${nickname}`;
+    document.title = `\u2709 Slack | ${nickname}`;
 
     return (
         <div className="row h-100 pb-3">
