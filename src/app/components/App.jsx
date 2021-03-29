@@ -1,34 +1,46 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { io } from 'socket.io-client';
-import { useDispatch } from 'react-redux';
-import Modal from './Modal.jsx';
-import ChannelsList from './ChannelsList.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import Modal from './modal/AddModal.jsx';
+import ChannelsList from './ChannelsBar.jsx';
 import Chat from './Chat.jsx';
 import NicknameContext from '../nicknameContext.js';
 import { addMessage } from '../reducers/messages.js';
+import { addChannel } from '../reducers/channels.js';
+
+const socket = io();
 
 const App = () => {
-    const socket = io();
     const dispatch = useDispatch();
 
-    // socket event logger
-    socket.onAny(console.log);
-    socket.on('newMessage', ({ data: { type, attributes } }) => {
-        if (type === 'messages') {
-            dispatch(addMessage({ attributes }));
-        }
-    });
+    useEffect(() => {
+        // socket event logger
+        socket.onAny((event, { data }) => {
+            console.log(event, 'data: ', data, 'type: ', data.type);
+        });
+        socket.on('newMessage', ({ data: { type, attributes } }) => {
+            if (type === 'messages') {
+                dispatch(addMessage({ attributes }));
+            }
+        });
+        socket.on('newChannel', ({ data: { type, attributes } }) => {
+            if (type === 'channels') {
+                dispatch(addChannel({ attributes }));
+            }
+        });
+        return () => socket.removeAllListeners();
+    }, []);
 
-    const [ModalInfo, setModalInfo] = useState({ state: 'hide', title: 'Add a channel' });
     const nickname = useContext(NicknameContext);
+    const modalInfo = useSelector((state) => state.modalInfo);
 
     document.title = `Slack | ${nickname}`;
 
     return (
         <div className="row h-100 pb-3">
-            <ChannelsList setModalInfo={setModalInfo} />
+            <ChannelsList />
             <Chat />
-            {ModalInfo.state === 'show' && <Modal setModalInfo={setModalInfo} ModalInfo={ModalInfo} />}
+            {modalInfo.isOpened && <Modal />}
         </div>
     );
 };

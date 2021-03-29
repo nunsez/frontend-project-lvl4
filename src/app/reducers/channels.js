@@ -10,8 +10,8 @@ const channelsSlice = createSlice({
         currentChannelId: gon.currentChannelId,
     },
     reducers: {
-        addChannel: (state, { payload: { channel } }) => {
-            state.channels.push(channel);
+        addChannel: (state, { payload: { attributes } }) => {
+            state.channels.push(attributes);
         },
         // prettier-ignore
         removeChannel: (state, { payload: { id } }) => (

@@ -2,31 +2,36 @@ import React from 'react';
 import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannelId } from '../reducers/channels';
+import { open, setType } from '../reducers/modal';
 
-const renderChannelHeader = (setModalInfo) => {
-    const handleAddChannel = () => {
-        setModalInfo((curState) => ({ ...curState, state: 'show' }));
+const ChannelsHeader = () => {
+    const dispatch = useDispatch();
+
+    const handleOpenAddChannelModal = () => {
+        const type = 'Add a channel';
+        dispatch(setType({ type }));
+        dispatch(open());
     };
 
     return (
         <div className="d-flex mb-2">
             <span>Channels</span>
-            <button onClick={handleAddChannel} type="button" className="ml-auto p-0 btn btn-link">
+            <button onClick={handleOpenAddChannelModal} type="button" className="ml-auto p-0 btn btn-link">
                 +
             </button>
         </div>
     );
 };
 
-const handleSwitchChannel = ({ id, dispatch }) => () => {
-    dispatch(setCurrentChannelId({ id }));
-};
-
-const ChannelsList = ({ setModalInfo }) => {
+const ChannelsBar = () => {
     const dispatch = useDispatch();
     const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
 
-    const renderChannelList = () => (
+    const handleSwitchChannel = (id) => () => {
+        dispatch(setCurrentChannelId({ id }));
+    };
+
+    const ChannelsList = () => (
         <ul className="nav flex-column nav-pills nav-fill">
             {channels.map((channel) => {
                 const { id, name } = channel;
@@ -37,7 +42,7 @@ const ChannelsList = ({ setModalInfo }) => {
 
                 return (
                     <li key={id} className="nav-item">
-                        <button type="button" className={btnClass} onClick={handleSwitchChannel({ id, dispatch })}>
+                        <button type="button" className={btnClass} onClick={handleSwitchChannel(id)}>
                             {name}
                         </button>
                     </li>
@@ -48,10 +53,10 @@ const ChannelsList = ({ setModalInfo }) => {
 
     return (
         <div className="col-3 border-right">
-            {renderChannelHeader(setModalInfo)}
-            {renderChannelList()}
+            <ChannelsHeader />
+            <ChannelsList />
         </div>
     );
 };
 
-export default ChannelsList;
+export default ChannelsBar;
