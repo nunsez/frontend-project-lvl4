@@ -17,7 +17,7 @@ const renderChannelHeader = (setModalInfo) => {
     );
 };
 
-const ChannelList = ({ setModalInfo }) => {
+const ChannelsList = ({ setModalInfo }) => {
     const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
 
     const renderChannelList = () => (
@@ -48,4 +48,4 @@ const ChannelList = ({ setModalInfo }) => {
     );
 };
 
-export default ChannelList;
+export default ChannelsList;

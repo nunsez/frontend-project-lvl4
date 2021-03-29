@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { io } from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 import Modal from './Modal.jsx';
-import ChannelList from './ChannelList.jsx';
+import ChannelsList from './ChannelsList.jsx';
 import Chat from './Chat.jsx';
 import NicknameContext from '../nicknameContext.js';
 import { addMessage } from '../reducers/messages.js';
@@ -26,7 +26,7 @@ const App = () => {
 
     return (
         <div className="row h-100 pb-3">
-            <ChannelList setModalInfo={setModalInfo} />
+            <ChannelsList setModalInfo={setModalInfo} />
             <Chat />
             {ModalInfo.state === 'show' && <Modal setModalInfo={setModalInfo} ModalInfo={ModalInfo} />}
         </div>
