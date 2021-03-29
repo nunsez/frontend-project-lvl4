@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from './modal/AddModal.jsx';
-import ChannelsList from './ChannelsBar.jsx';
+import ChannelsBar from './ChannelsBar.jsx';
 import Chat from './Chat.jsx';
 import NicknameContext from '../nicknameContext.js';
 import { addMessage } from '../reducers/messages.js';
@@ -38,7 +38,7 @@ const App = () => {
 
     return (
         <div className="row h-100 pb-3">
-            <ChannelsList />
+            <ChannelsBar />
             <Chat />
             {modalInfo.isOpened && <Modal />}
         </div>
