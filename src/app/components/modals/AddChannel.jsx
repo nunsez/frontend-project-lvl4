@@ -8,7 +8,7 @@ import cn from 'classnames';
 import * as yup from 'yup';
 import axios from 'axios';
 import routes from '../../../routes.js';
-import { close } from '../../reducers/modal.js';
+import { closeModal } from '../../reducers/modal.js';
 
 const CHANNEL_NAME_MIN_LENGTH = 3;
 const CHANNEL_NAME_MAX_LENGTH = 20;
@@ -44,7 +44,7 @@ const ModalPanel = () => {
     }, []);
 
     const handleHideModal = () => {
-        dispatch(close());
+        dispatch(closeModal());
     };
 
     const f = useFormik({
@@ -69,7 +69,7 @@ const ModalPanel = () => {
     return (
         <Modal show={modalInfo.isOpened} onHide={handleHideModal}>
             <Modal.Header closeButton>
-                <Modal.Title>{modalInfo.type}</Modal.Title>
+                <Modal.Title>Add a channel</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>

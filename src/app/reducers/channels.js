@@ -13,10 +13,9 @@ const channelsSlice = createSlice({
         addChannel: (state, { payload: { attributes } }) => {
             state.channels.push(attributes);
         },
-        // prettier-ignore
-        removeChannel: (state, { payload: { id } }) => (
-            state.channels.filter((c) => (c.removable ? c.id !== id : true))
-        ),
+        removeChannel: (state, { payload: { id } }) => {
+            state.channels = state.channels.filter((c) => (c.removable ? c.id !== id : true));
+        },
         setCurrentChannelId: (state, { payload: { id } }) => {
             state.currentChannelId = id;
         },

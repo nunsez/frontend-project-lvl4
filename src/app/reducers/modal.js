@@ -10,24 +10,19 @@ const modalSlice = createSlice({
         extra: null,
     },
     reducers: {
-        open: (state) => {
+        openModal: (state, { payload: { type, extra = null } }) => {
             state.isOpened = true;
-        },
-        close: (state) => {
-            state.isOpened = false;
-        },
-        setType: (state, { payload: { type } }) => {
             state.type = type;
-        },
-        setExtra: (state, { payload: { extra } }) => {
             state.extra = extra;
+        },
+        closeModal: (state) => {
+            state.isOpened = false;
+            state.type = null;
+            state.extra = null;
         },
     },
 });
 
-// prettier-ignore
-export const {
-    open, close, setType, setExtra,
-} = modalSlice.actions;
+export const { openModal, closeModal } = modalSlice.actions;
 
 export default modalSlice.reducer;
