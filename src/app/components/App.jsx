@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
-import Modal from './modal/AddModal.jsx';
+import Modal from './modals/AddChannel.jsx';
 import ChannelsBar from './ChannelsBar.jsx';
 import Chat from './Chat.jsx';
 import NicknameContext from '../nicknameContext.js';
