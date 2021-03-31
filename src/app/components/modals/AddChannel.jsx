@@ -13,16 +13,13 @@ import { modalSchema as baseSchema } from '../../validators.js';
 
 const ModalPanel = () => {
     const dispatch = useDispatch();
-    const modalInfo = useSelector((state) => state.modalInfo);
+    const { isOpened } = useSelector((state) => state.modalInfo);
     const [validateOnChange, setValidateOnChange] = useState(false);
-
-    const getChannels = () => {
-        const channels = useSelector((state) => state.channelsInfo.channels);
-        return channels.map((c) => c.name);
-    };
+    const channels = useSelector(({ channelsInfo }) => channelsInfo.channels);
+    const channelsByName = channels.map((c) => c.name);
 
     const additionalSchema = yup.object().shape({
-        name: yup.string().notOneOf(getChannels(), 'Must be unique'),
+        name: yup.string().notOneOf(channelsByName, 'Must be unique'),
     });
     const validationSchema = baseSchema.concat(additionalSchema);
 
@@ -40,11 +37,11 @@ const ModalPanel = () => {
         validateOnBlur: false,
         validateOnChange,
         validationSchema,
-        onSubmit: async ({ name }, { resetForm }) => {
+        onSubmit: async ({ name }) => {
             const path = routes.channelsPath();
+
             try {
                 await axios.post(path, { data: { attributes: { name } } });
-                resetForm();
                 handleHideModal();
             } catch (e) {
                 console.log('AXIOS ERROR', e);
@@ -55,7 +52,7 @@ const ModalPanel = () => {
     const inputClass = cn('mb-2 form-control', { 'is-invalid': f.errors.name });
 
     return (
-        <Modal show={modalInfo.isOpened} onHide={handleHideModal}>
+        <Modal show={isOpened} onHide={handleHideModal}>
             <Modal.Header closeButton>
                 <Modal.Title>Add a channel</Modal.Title>
             </Modal.Header>

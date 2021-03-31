@@ -6,7 +6,7 @@ import ChannelsBar from './ChannelsBar.jsx';
 import Chat from './Chat.jsx';
 import NicknameContext from '../nicknameContext.js';
 import { addMessage } from '../reducers/messages.js';
-import { addChannel, removeChannel } from '../reducers/channels.js';
+import { addChannel, removeChannel, renameChannel } from '../reducers/channels.js';
 
 const socket = io();
 
@@ -26,6 +26,9 @@ const App = () => {
         });
         socket.on('removeChannel', ({ data: { id } }) => {
             dispatch(removeChannel({ id }));
+        });
+        socket.on('renameChannel', ({ data: { attributes } }) => {
+            dispatch(renameChannel({ attributes }));
         });
 
         return () => socket.removeAllListeners();

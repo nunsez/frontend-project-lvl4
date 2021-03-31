@@ -44,8 +44,8 @@ const ChannelsBar = () => {
         dispatch(setCurrentChannelId({ id }));
     };
 
-    const handleOpenModal = ({ id, type }) => () => {
-        dispatch(openModal({ type, extra: { channelId: id } }));
+    const handleOpenModal = ({ id, type, name = null }) => () => {
+        dispatch(openModal({ type, extra: { channelId: id, channelName: name } }));
     };
 
     const getChannelItem = ({ id, name, removable }) => {
@@ -68,7 +68,7 @@ const ChannelsBar = () => {
                     <DropdownWrapper
                         variant={variant}
                         onRemove={handleOpenModal({ id, type: 'RemoveChannel' })}
-                        onRename={handleOpenModal({ id, type: 'RenameChannel' })}
+                        onRename={handleOpenModal({ id, type: 'RenameChannel', name })}
                     >
                         <ChannelButton />
                     </DropdownWrapper>

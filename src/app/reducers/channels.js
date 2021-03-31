@@ -10,11 +10,16 @@ const channelsSlice = createSlice({
         currentChannelId: gon.currentChannelId,
     },
     reducers: {
-        addChannel: (state, { payload: { attributes } }) => {
-            state.channels.push(attributes);
+        addChannel: ({ channels }, { payload: { attributes } }) => {
+            channels.push(attributes);
         },
         removeChannel: (state, { payload: { id } }) => {
             state.channels = state.channels.filter((c) => (c.removable ? c.id !== id : true));
+        },
+        renameChannel: ({ channels }, { payload: { attributes } }) => {
+            const currentChannel = channels.find((c) => c.id === attributes.id);
+            const index = channels.indexOf(currentChannel);
+            channels[index] = attributes;
         },
         setCurrentChannelId: (state, { payload: { id } }) => {
             state.currentChannelId = id;
@@ -22,6 +27,9 @@ const channelsSlice = createSlice({
     },
 });
 
-export const { addChannel, removeChannel, setCurrentChannelId } = channelsSlice.actions;
+// prettier-ignore
+export const {
+    addChannel, removeChannel, renameChannel, setCurrentChannelId,
+} = channelsSlice.actions;
 
 export default channelsSlice.reducer;
