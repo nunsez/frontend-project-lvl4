@@ -2,14 +2,10 @@ import React, { useContext, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import cn from 'classnames';
-import * as yup from 'yup';
 import { useSelector } from 'react-redux';
 import NicknameContext from '../nicknameContext.js';
 import routes from '../../routes.js';
-
-const validationSchema = yup.object().shape({
-    body: yup.string().trim().required('Required'),
-});
+import { chatSchema as validationSchema } from '../validators.js';
 
 const InputTextForm = () => {
     const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
