@@ -39,17 +39,11 @@ const DropdownWrapper = ({
     </Dropdown>
 );
 
-DropdownWrapper.defaultProps = {
-    variant: 'light',
-    onRemove: () => {},
-    onRename: () => {},
-};
-
 DropdownWrapper.propTypes = {
     children: propTypes.element.isRequired,
-    variant: propTypes.string,
-    onRemove: propTypes.func,
-    onRename: propTypes.func,
+    variant: propTypes.oneOf(['primary', 'light']).isRequired,
+    onRemove: propTypes.func.isRequired,
+    onRename: propTypes.func.isRequired,
 };
 
 const ChannelsBar = () => {
@@ -74,14 +68,10 @@ const ChannelsBar = () => {
             </Nav.Link>
         );
 
-        Nav.Link.defaultProps = {
-            onClick: () => {},
-        };
-
         Nav.Link.propTypes = {
-            onClick: propTypes.func,
+            onClick: propTypes.func.isRequired,
             className: propTypes.string.isRequired,
-            variant: propTypes.string.isRequired,
+            variant: propTypes.oneOf(['primary', 'light']).isRequired,
         };
 
         if (!removable) {
@@ -101,15 +91,14 @@ const ChannelsBar = () => {
 
     NavButton.defaultProps = {
         channel: {
-            name: 'default channel name',
             removable: true,
         },
     };
 
     NavButton.propTypes = {
-        channel: propTypes.shape({
+        channel: propTypes.exact({
             id: propTypes.number.isRequired,
-            name: propTypes.string,
+            name: propTypes.string.isRequired,
             removable: propTypes.bool,
         }),
     };
