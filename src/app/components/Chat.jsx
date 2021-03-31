@@ -14,7 +14,7 @@ const InputTextForm = () => {
 
     useEffect(() => {
         inputEl.current.focus();
-    }, []);
+    }, [currentChannelId]);
 
     const f = useFormik({
         initialValues: {
