@@ -6,9 +6,13 @@ import { Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
 import routes from '../../../routes.js';
 import { closeModal } from '../../reducers/modal.js';
+import { setCurrentChannelId } from '../../reducers/channels';
+
+const generalChannelId = 1;
 
 const ModalPanel = () => {
     const dispatch = useDispatch();
+    const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
     const {
         isOpened,
         extra: { channelId },
@@ -24,6 +28,10 @@ const ModalPanel = () => {
         try {
             await axios.delete(path);
             dispatch(closeModal());
+
+            if (currentChannelId === channelId) {
+                dispatch(setCurrentChannelId({ id: generalChannelId }));
+            }
         } catch (e) {
             console.log('AXIOS ERROR', e);
         }
