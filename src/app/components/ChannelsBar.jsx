@@ -56,7 +56,7 @@ const ChannelsBar = () => {
 
         const ChannelButton = ({ className }) => (
             <Nav.Link as={Button} onClick={handleSwitchChannel(id)} className={className} variant={variant}>
-                {name}
+                {name.trim()}
             </Nav.Link>
         );
 

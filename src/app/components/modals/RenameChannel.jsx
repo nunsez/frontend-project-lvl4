@@ -4,11 +4,10 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import axios from 'axios';
 import routes from '../../../routes.js';
 import { closeModal } from '../../reducers/modal.js';
-import { modalSchema as baseSchema } from '../../validators.js';
+import { channelNameValidate } from '../../validators.js';
 
 const ModalPanel = () => {
     const dispatch = useDispatch();
@@ -19,11 +18,6 @@ const ModalPanel = () => {
     const [validateOnChange, setValidateOnChange] = useState(false);
     const channels = useSelector(({ channelsInfo }) => channelsInfo.channels);
     const channelsByName = channels.map((c) => c.name);
-
-    const additionalSchema = yup.object().shape({
-        name: yup.string().notOneOf(channelsByName, 'Must be unique'),
-    });
-    const validationSchema = baseSchema.concat(additionalSchema);
 
     const inputRef = useRef();
     useEffect(() => {
@@ -38,7 +32,7 @@ const ModalPanel = () => {
         initialValues: { name: channelName },
         validateOnBlur: false,
         validateOnChange,
-        validationSchema,
+        validate: channelNameValidate(channelsByName),
         onSubmit: async ({ name }) => {
             const path = routes.channelPath(channelId);
 

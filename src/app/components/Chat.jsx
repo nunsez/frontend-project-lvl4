@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import NicknameContext from '../nicknameContext.js';
 import routes from '../../routes.js';
-import { chatSchema as validationSchema } from '../validators.js';
+import { chatMessageValidate as validate } from '../validators.js';
 
 const InputTextForm = () => {
     const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
@@ -21,7 +21,7 @@ const InputTextForm = () => {
             body: '',
         },
         validateOnBlur: false,
-        validationSchema,
+        validate,
         onSubmit: async ({ body }, { resetForm }) => {
             const attributes = { body, nickname };
             const path = routes.channelMessagesPath(currentChannelId);
@@ -76,7 +76,7 @@ const MessagesBox = () => {
         <div key={id} className="text-break">
             <b>{nickname}</b>
             {': '}
-            {body}
+            {body.trim()}
         </div>
     );
 
