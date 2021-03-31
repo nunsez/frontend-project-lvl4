@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react';
+import { InputGroup, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import cn from 'classnames';
 import { useSelector } from 'react-redux';
 import NicknameContext from '../nicknameContext.js';
 import routes from '../../routes.js';
@@ -36,31 +36,28 @@ const InputTextForm = () => {
         },
     });
 
-    const inputGroupClass = cn('input-group', { 'has-validation': f.errors.body });
-    const inputClass = cn('form-control', { 'is-invalid': f.errors.body });
-
     return (
         <div className="mt-auto">
-            <form noValidate className="" onSubmit={f.handleSubmit}>
-                <div className={inputGroupClass}>
-                    <input
+            <Form noValidate onSubmit={f.handleSubmit}>
+                <InputGroup hasValidation={!!f.errors.body}>
+                    <Form.Control
                         name="body"
                         aria-label="body"
                         ref={inputEl}
-                        className={inputClass}
                         value={f.values.body}
                         onChange={f.handleChange}
                         onBlur={f.handleBlur}
                         readOnly={f.isSubmitting}
+                        isInvalid={!!f.errors.body}
                     />
-                    <div className="input-group-append">
-                        <button disabled={f.isSubmitting} aria-label="submit" type="submit" className="btn btn-primary">
+                    <InputGroup.Append>
+                        <Button disabled={f.isSubmitting} type="submit" aria-label="submit">
                             Submit
-                        </button>
-                    </div>
-                    {f.errors.body && <div className="invalid-feedback">{f.errors.body}</div>}
-                </div>
-            </form>
+                        </Button>
+                    </InputGroup.Append>
+                    <Form.Control.Feedback type="invalid">{f.errors.body}</Form.Control.Feedback>
+                </InputGroup>
+            </Form>
         </div>
     );
 };

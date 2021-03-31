@@ -4,7 +4,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import cn from 'classnames';
 import * as yup from 'yup';
 import axios from 'axios';
 import routes from '../../../routes.js';
@@ -49,8 +48,6 @@ const ModalPanel = () => {
         },
     });
 
-    const inputClass = cn('mb-2 form-control', { 'is-invalid': f.errors.name });
-
     return (
         <Modal show={isOpened} onHide={handleHideModal}>
             <Modal.Header closeButton>
@@ -64,12 +61,15 @@ const ModalPanel = () => {
                             ref={inputRef}
                             onBlur={f.handleBlur}
                             onChange={f.handleChange}
-                            className={inputClass}
+                            className="mb-2"
                             name="name"
                             value={f.values.name}
                             readOnly={f.isSubmitting}
+                            isInvalid={!!f.errors.name}
                         />
-                        {f.errors.name && <div className="d-block mb-2 invalid-feedback">{f.errors.name}</div>}
+                        <Form.Control.Feedback type="invalid" className="d-block mb-2">
+                            {f.errors.name}
+                        </Form.Control.Feedback>
                         <div className="d-flex justify-content-end">
                             <Button onClick={handleHideModal} className="mr-2" variant="secondary">
                                 Cancel

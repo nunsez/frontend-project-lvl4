@@ -1,6 +1,8 @@
+// prettier-ignore
+import {
+    Dropdown, ButtonGroup, Button, Nav,
+} from 'react-bootstrap';
 import React from 'react';
-import cn from 'classnames';
-import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannelId } from '../reducers/channels';
 import { openModal } from '../reducers/modal';
@@ -48,43 +50,45 @@ const ChannelsBar = () => {
         dispatch(openModal({ type, extra: { channelId: id, channelName: name } }));
     };
 
-    const getChannelItem = ({ id, name, removable }) => {
-        const btnClass = cn('nav-link text-left', {
-            'btn-block': !removable,
-            'mb-2': !removable,
-            'flex-grow-1': removable,
-        });
+    const NavButton = ({ channel }) => {
+        const { id, name, removable } = channel;
         const variant = currentChannelId === id ? 'primary' : 'light';
 
-        const ChannelButton = () => (
-            <Button onClick={handleSwitchChannel(id)} className={btnClass} variant={variant}>
+        const ChannelButton = ({ className }) => (
+            <Nav.Link as={Button} onClick={handleSwitchChannel(id)} className={className} variant={variant}>
                 {name}
-            </Button>
+            </Nav.Link>
         );
 
+        if (!removable) {
+            return <ChannelButton className="text-left btn-block mb-2" />;
+        }
+
         return (
-            <li key={id} className="nav-item">
-                {removable ? (
-                    <DropdownWrapper
-                        variant={variant}
-                        onRemove={handleOpenModal({ id, type: 'RemoveChannel' })}
-                        onRename={handleOpenModal({ id, type: 'RenameChannel', name })}
-                    >
-                        <ChannelButton />
-                    </DropdownWrapper>
-                ) : (
-                    <ChannelButton />
-                )}
-            </li>
+            <DropdownWrapper
+                variant={variant}
+                onRemove={handleOpenModal({ id, type: 'RemoveChannel' })}
+                onRename={handleOpenModal({ id, type: 'RenameChannel', name })}
+            >
+                <ChannelButton className="text-left flex-grow-1" />
+            </DropdownWrapper>
         );
     };
 
-    const ChannelsList = () => <ul className="nav flex-column nav-pills nav-fill">{channels.map(getChannelItem)}</ul>;
+    const ChannelsNav = () => (
+        <Nav fill className="flex-column" variant="pills">
+            {channels.map((channel) => (
+                <Nav.Item key={channel.id}>
+                    <NavButton channel={channel} />
+                </Nav.Item>
+            ))}
+        </Nav>
+    );
 
     return (
         <div className="col-3 border-right">
             <ChannelsHeader />
-            <ChannelsList />
+            <ChannelsNav />
         </div>
     );
 };
