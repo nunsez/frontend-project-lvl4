@@ -13,25 +13,21 @@ const socket = io();
 const App = () => {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        // socket event logger
-        socket.onAny((event, { data }) => {
-            console.log(event, 'data: ', data, 'type: ', data.type);
-        });
-        socket.on('newMessage', ({ data: { attributes } }) => {
-            dispatch(addMessage({ attributes }));
-        });
-        socket.on('newChannel', ({ data: { attributes } }) => {
-            dispatch(addChannel({ attributes }));
-        });
-        socket.on('removeChannel', ({ data: { id } }) => {
-            dispatch(removeChannel({ id }));
-        });
-        socket.on('renameChannel', ({ data: { attributes } }) => {
-            dispatch(renameChannel({ attributes }));
-        });
+    const socketEventMapping = {
+        newMessage: ({ data: { attributes } }) => dispatch(addMessage({ attributes })),
+        newChannel: ({ data: { attributes } }) => dispatch(addChannel({ attributes })),
+        renameChannel: ({ data: { attributes } }) => dispatch(renameChannel({ attributes })),
+        removeChannel: ({ data: { id } }) => dispatch(removeChannel({ id })),
+    };
 
-        return () => socket.removeAllListeners();
+    const listener = (eventName, message) => {
+        console.log(`websocket eventName: ${eventName};`, 'data logger:', message.data);
+        return socketEventMapping[eventName](message);
+    };
+
+    useEffect(() => {
+        socket.onAny(listener);
+        return () => socket.offAny(listener);
     }, []);
 
     const nickname = useContext(NicknameContext);
