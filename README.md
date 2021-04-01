@@ -15,8 +15,8 @@
 - React
 - React Bootstrap
 - Redux Toolkit
-- Websocket
 - REST API
+- WebSocket
 - Webpack
 - Heroku deploy
 - Rollbar
