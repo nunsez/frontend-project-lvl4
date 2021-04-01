@@ -1,12 +1,14 @@
 /* eslint-disable no-template-curly-in-string, newline-per-chained-call */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
 import routes from '../../../routes.js';
 import { closeModal } from '../../reducers/modal.js';
 import { setCurrentChannelId } from '../../reducers/channels';
+import RollbarContext from '../../rollbarContext.js';
+import NicknameContext from '../../nicknameContext.js';
 
 const generalChannelId = 1;
 
@@ -33,7 +35,10 @@ const ModalPanel = () => {
                 dispatch(setCurrentChannelId({ id: generalChannelId }));
             }
         } catch (e) {
-            console.log('AXIOS ERROR', e);
+            const rollbar = useContext(RollbarContext);
+            const nickname = useContext(NicknameContext);
+            const extra = { nickname, inChannel: channelId };
+            rollbar.error('axios remove channel error', e, extra);
         }
     };
 

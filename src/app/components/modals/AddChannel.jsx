@@ -1,6 +1,9 @@
 /* eslint-disable no-template-curly-in-string, newline-per-chained-call */
 
-import React, { useRef, useEffect, useState } from 'react';
+// prettier-ignore
+import React, {
+    useRef, useEffect, useState, useContext,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
@@ -8,6 +11,8 @@ import axios from 'axios';
 import routes from '../../../routes.js';
 import { closeModal } from '../../reducers/modal.js';
 import { channelNameValidate } from '../../validators.js';
+import RollbarContext from '../../rollbarContext.js';
+import NicknameContext from '../../nicknameContext.js';
 
 const ModalPanel = () => {
     const dispatch = useDispatch();
@@ -37,7 +42,10 @@ const ModalPanel = () => {
                 await axios.post(path, { data: { attributes: { name } } });
                 handleHideModal();
             } catch (e) {
-                console.log('AXIOS ERROR', e);
+                const rollbar = useContext(RollbarContext);
+                const nickname = useContext(NicknameContext);
+                const extra = { nickname };
+                rollbar.error('axios remove channel error', e, extra);
             }
         },
     });

@@ -6,12 +6,14 @@ import { useSelector } from 'react-redux';
 import NicknameContext from '../nicknameContext.js';
 import routes from '../../routes.js';
 import { chatMessageValidate as validate } from '../validators.js';
+import RollbarContext from '../rollbarContext.js';
 
 const InputTextForm = () => {
     const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
     const nickname = useContext(NicknameContext);
-    const inputEl = useRef();
+    const rollbar = useContext(RollbarContext);
 
+    const inputEl = useRef();
     useEffect(() => {
         inputEl.current.focus();
     }, [currentChannelId]);
@@ -31,7 +33,8 @@ const InputTextForm = () => {
                 resetForm();
                 inputEl.current.focus();
             } catch (e) {
-                console.log('AXIOS ERROR', e);
+                const extra = { nickname, inChannel: currentChannelId };
+                rollbar.error('axios chat error', e, extra);
             }
         },
     });
