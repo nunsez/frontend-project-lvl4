@@ -1,14 +1,10 @@
 /* eslint-disable no-param-reassign */
 
-import gon from 'gon';
 import { createSlice } from '@reduxjs/toolkit';
 
 const channelsSlice = createSlice({
     name: 'channelsInfo',
-    initialState: {
-        channels: gon.channels,
-        currentChannelId: gon.currentChannelId,
-    },
+    initialState: {},
     reducers: {
         addChannel: ({ channels }, { payload: { attributes } }) => {
             channels.push(attributes);

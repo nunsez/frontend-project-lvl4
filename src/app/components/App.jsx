@@ -1,35 +1,11 @@
-import React, { useContext, useEffect } from 'react';
-import { io } from 'socket.io-client';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import getModal from './modals';
 import ChannelsBar from './ChannelsBar.jsx';
 import Chat from './Chat.jsx';
 import NicknameContext from '../nicknameContext.js';
-import { addMessage } from '../reducers/messages.js';
-import { addChannel, removeChannel, renameChannel } from '../reducers/channels.js';
-
-const socket = io();
 
 const App = () => {
-    const dispatch = useDispatch();
-
-    const socketEventMapping = {
-        newMessage: ({ data: { attributes } }) => dispatch(addMessage({ attributes })),
-        newChannel: ({ data: { attributes } }) => dispatch(addChannel({ attributes })),
-        renameChannel: ({ data: { attributes } }) => dispatch(renameChannel({ attributes })),
-        removeChannel: ({ data: { id } }) => dispatch(removeChannel({ id })),
-    };
-
-    const listener = (eventName, message) => {
-        console.log(`websocket eventName: ${eventName};`, 'data logger:', message.data);
-        return socketEventMapping[eventName](message);
-    };
-
-    useEffect(() => {
-        socket.onAny(listener);
-        return () => socket.offAny(listener);
-    }, []);
-
     const nickname = useContext(NicknameContext);
     const modalInfo = useSelector((state) => state.modalInfo);
     const Modal = getModal(modalInfo.type);

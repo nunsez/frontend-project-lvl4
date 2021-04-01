@@ -1,14 +1,11 @@
 /* eslint-disable no-param-reassign */
 
-import gon from 'gon';
 import { createSlice } from '@reduxjs/toolkit';
 import { removeChannel } from './channels.js';
 
 const messagesSlice = createSlice({
     name: 'messagesInfo',
-    initialState: {
-        messages: gon.messages,
-    },
+    initialState: {},
     reducers: {
         addMessage: (state, { payload: { attributes } }) => {
             state.messages.push(attributes);

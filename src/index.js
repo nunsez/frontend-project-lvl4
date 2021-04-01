@@ -1,14 +1,8 @@
 // @ts-check
 
-import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-
 // @ts-ignore
 import gon from 'gon';
-import rootReducer from './app/reducers';
-import App from './app/components/App.jsx';
+import init from './init.jsx';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -37,17 +31,4 @@ card.append(cardBody);
 const container = document.querySelector('#chat');
 container.append(card);
 
-console.log('it works!');
-console.log('gon', gon);
-
-const store = configureStore({
-    reducer: rootReducer,
-});
-
-/* eslint-disable comma-dangle */
-render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    container
-);
+init({ gon, container });
