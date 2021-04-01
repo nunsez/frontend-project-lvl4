@@ -3,7 +3,7 @@ import { createContext } from 'react';
 
 const rollbar = new Rollbar({
     // POST CLIENT ITEM TOKEN
-    accessToken: 'a962f266ab24450dbfef5afc45a35798',
+    accessToken: process.env.ROLLBAR_TOKEN ?? null,
     captureUncaught: true,
     captureUnhandledRejections: true,
 });
