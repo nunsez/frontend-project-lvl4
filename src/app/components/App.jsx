@@ -6,19 +6,19 @@ import Chat from './Chat.jsx';
 import NicknameContext from '../nicknameContext.js';
 
 const App = () => {
-    const nickname = useContext(NicknameContext);
-    const modalInfo = useSelector((state) => state.modalInfo);
-    const Modal = getModal(modalInfo.type);
+  const nickname = useContext(NicknameContext);
+  const modalInfo = useSelector((state) => state.modalInfo);
+  const Modal = getModal(modalInfo.type);
 
-    document.title = `Slack | ${nickname}`;
+  document.title = `Slack | ${nickname}`;
 
-    return (
-        <div className="row h-100 pb-3">
-            <ChannelsBar />
-            <Chat />
-            {modalInfo.isOpened && <Modal />}
-        </div>
-    );
+  return (
+    <div className="row h-100 pb-3">
+      <ChannelsBar />
+      <Chat />
+      {modalInfo.isOpened && <Modal />}
+    </div>
+  );
 };
 
 export default App;

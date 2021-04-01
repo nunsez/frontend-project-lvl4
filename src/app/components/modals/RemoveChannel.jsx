@@ -13,54 +13,54 @@ import NicknameContext from '../../nicknameContext.js';
 const generalChannelId = 1;
 
 const ModalPanel = () => {
-    const dispatch = useDispatch();
-    const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
-    const {
-        isOpened,
-        extra: { channelId },
-    } = useSelector((state) => state.modalInfo);
+  const dispatch = useDispatch();
+  const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
+  const {
+    isOpened,
+    extra: { channelId },
+  } = useSelector((state) => state.modalInfo);
 
-    const handleHideModal = () => {
-        dispatch(closeModal());
-    };
+  const handleHideModal = () => {
+    dispatch(closeModal());
+  };
 
-    const handleRemoveChannel = async () => {
-        const path = routes.channelPath(channelId);
+  const handleRemoveChannel = async () => {
+    const path = routes.channelPath(channelId);
 
-        try {
-            await axios.delete(path);
-            dispatch(closeModal());
+    try {
+      await axios.delete(path);
+      dispatch(closeModal());
 
-            if (currentChannelId === channelId) {
-                dispatch(setCurrentChannelId({ id: generalChannelId }));
-            }
-        } catch (e) {
-            const rollbar = useContext(RollbarContext);
-            const nickname = useContext(NicknameContext);
-            const extra = { nickname, inChannel: channelId };
-            rollbar.error('axios remove channel error', e, extra);
-        }
-    };
+      if (currentChannelId === channelId) {
+        dispatch(setCurrentChannelId({ id: generalChannelId }));
+      }
+    } catch (e) {
+      const rollbar = useContext(RollbarContext);
+      const nickname = useContext(NicknameContext);
+      const extra = { nickname, inChannel: channelId };
+      rollbar.error('axios remove channel error', e, extra);
+    }
+  };
 
-    return (
-        <Modal show={isOpened} onHide={handleHideModal}>
-            <Modal.Header closeButton>
-                <Modal.Title>Remove channel</Modal.Title>
-            </Modal.Header>
+  return (
+    <Modal show={isOpened} onHide={handleHideModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>Remove channel</Modal.Title>
+      </Modal.Header>
 
-            <Modal.Body>
-                Are you sure?
-                <div className="d-flex justify-content-between">
-                    <Button onClick={handleHideModal} className="mr-2" variant="secondary">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleRemoveChannel} variant="danger">
-                        Confirm
-                    </Button>
-                </div>
-            </Modal.Body>
-        </Modal>
-    );
+      <Modal.Body>
+        Are you sure?
+        <div className="d-flex justify-content-between">
+          <Button onClick={handleHideModal} className="mr-2" variant="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleRemoveChannel} variant="danger">
+            Confirm
+          </Button>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
 };
 
 export default ModalPanel;
