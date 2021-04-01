@@ -9,7 +9,7 @@ import 'regenerator-runtime/runtime';
 import '../assets/application.scss';
 
 if (process.env.NODE_ENV !== 'production') {
-    localStorage.debug = 'chat:*';
+  localStorage.debug = 'chat:*';
 }
 
 const p = document.createElement('p');

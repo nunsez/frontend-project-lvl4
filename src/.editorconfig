@@ -32,7 +32,7 @@ end_of_line = lf
 insert_final_newline = true
 
 quote_type = single
-max_line_length = 120
+max_line_length = 100
 trim_trailing_whitespace = true
 
 # Matches the exact files either package.json or .eslintrc.yml

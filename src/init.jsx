@@ -12,45 +12,45 @@ import { addChannel, removeChannel, renameChannel } from './app/reducers/channel
 const socket = io({ multiplex: false });
 
 export default ({ gon, container }) => {
-    const preloadedState = {
-        channelsInfo: {
-            channels: gon.channels,
-            currentChannelId: gon.currentChannelId,
-        },
-        messagesInfo: {
-            messages: gon.messages,
-        },
-        modalInfo: {
-            isOpened: false,
-            type: null,
-            extra: null,
-        },
-    };
+  const preloadedState = {
+    channelsInfo: {
+      channels: gon.channels,
+      currentChannelId: gon.currentChannelId,
+    },
+    messagesInfo: {
+      messages: gon.messages,
+    },
+    modalInfo: {
+      isOpened: false,
+      type: null,
+      extra: null,
+    },
+  };
 
-    const store = configureStore({
-        reducer: rootReducer,
-        preloadedState,
-    });
+  const store = configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });
 
-    const socketEventMapping = {
-        newMessage: ({ data: { attributes } }) => store.dispatch(addMessage({ attributes })),
-        newChannel: ({ data: { attributes } }) => store.dispatch(addChannel({ attributes })),
-        renameChannel: ({ data: { attributes } }) => store.dispatch(renameChannel({ attributes })),
-        removeChannel: ({ data: { id } }) => store.dispatch(removeChannel({ id })),
-    };
+  const socketEventMapping = {
+    newMessage: ({ data: { attributes } }) => store.dispatch(addMessage({ attributes })),
+    newChannel: ({ data: { attributes } }) => store.dispatch(addChannel({ attributes })),
+    renameChannel: ({ data: { attributes } }) => store.dispatch(renameChannel({ attributes })),
+    removeChannel: ({ data: { id } }) => store.dispatch(removeChannel({ id })),
+  };
 
-    const listener = (eventName, message) => {
-        console.log(`websocket eventName: ${eventName};`, 'data logger:', message.data);
-        return socketEventMapping[eventName](message);
-    };
+  const listener = (eventName, message) => {
+    console.log(`websocket eventName: ${eventName};`, 'data logger:', message.data);
+    return socketEventMapping[eventName](message);
+  };
 
-    socket.onAny(listener);
+  socket.onAny(listener);
 
-    /* eslint-disable comma-dangle */
-    render(
-        <Provider store={store}>
-            <App />
-        </Provider>,
-        container
-    );
+  /* eslint-disable comma-dangle */
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    container
+  );
 };
