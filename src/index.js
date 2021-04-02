@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-console.log(process.env.ROLLBAR_TOKEN);
+console.log('rollbar token:', process.env.ROLLBAR_TOKEN);
 
 const p = document.createElement('p');
 p.classList.add('card-text');
