@@ -28,8 +28,8 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    isDev && new Dotenv({ safe: true, defaults: true }),
-  ].filter(Boolean),
+    new Dotenv({ safe: true, defaults: true }),
+  ],
   module: {
     rules: [
       {

@@ -1,8 +1,12 @@
 import Rollbar from 'rollbar';
 import { createContext } from 'react';
 
+const token = process?.env?.ROLLBAR_TOKEN;
+
+console.log('process.env.ROLLBAR_TOKEN:', token);
+
 const rollbar = new Rollbar({
-  accessToken: process.env.ROLLBAR_TOKEN,
+  accessToken: token,
   captureUncaught: true,
   captureUnhandledRejections: true,
 });
