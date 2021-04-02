@@ -1,6 +1,7 @@
 // @ts-check
 
 import path from 'path';
+import Dotenv from 'dotenv-webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const mode = process.env.NODE_ENV || 'development';
@@ -25,6 +26,7 @@ module.exports = {
     compress: true,
   },
   plugins: [
+    new Dotenv({ safe: true }),
     new MiniCssExtractPlugin(),
   ],
   module: {
