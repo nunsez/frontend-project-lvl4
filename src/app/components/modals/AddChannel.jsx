@@ -16,6 +16,8 @@ import NicknameContext from '../../nicknameContext.js';
 
 const ModalPanel = () => {
   const dispatch = useDispatch();
+  const rollbar = useContext(RollbarContext);
+  const nickname = useContext(NicknameContext);
   const { isOpened } = useSelector((state) => state.modalInfo);
   const [validateOnChange, setValidateOnChange] = useState(false);
   const channels = useSelector(({ channelsInfo }) => channelsInfo.channels);
@@ -42,8 +44,6 @@ const ModalPanel = () => {
         await axios.post(path, { data: { attributes: { name } } });
         handleHideModal();
       } catch (e) {
-        const rollbar = useContext(RollbarContext);
-        const nickname = useContext(NicknameContext);
         const extra = { nickname };
         rollbar.error('axios remove channel error', e, extra);
       }

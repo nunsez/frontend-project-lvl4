@@ -16,6 +16,8 @@ import NicknameContext from '../../nicknameContext.js';
 
 const ModalPanel = () => {
   const dispatch = useDispatch();
+  const rollbar = useContext(RollbarContext);
+  const nickname = useContext(NicknameContext);
   const {
     isOpened,
     extra: { channelId, channelName },
@@ -45,8 +47,6 @@ const ModalPanel = () => {
         await axios.patch(path, { data: { attributes: { name } } });
         dispatch(closeModal());
       } catch (e) {
-        const rollbar = useContext(RollbarContext);
-        const nickname = useContext(NicknameContext);
         const extra = { nickname, inChannel: channelId };
         rollbar.error('axios rename channel error', e, extra);
       }

@@ -14,6 +14,8 @@ const generalChannelId = 1;
 
 const ModalPanel = () => {
   const dispatch = useDispatch();
+  const rollbar = useContext(RollbarContext);
+  const nickname = useContext(NicknameContext);
   const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
   const {
     isOpened,
@@ -35,8 +37,6 @@ const ModalPanel = () => {
         dispatch(setCurrentChannelId({ id: generalChannelId }));
       }
     } catch (e) {
-      const rollbar = useContext(RollbarContext);
-      const nickname = useContext(NicknameContext);
       const extra = { nickname, inChannel: channelId };
       rollbar.error('axios remove channel error', e, extra);
     }

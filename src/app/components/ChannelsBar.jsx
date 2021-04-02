@@ -63,7 +63,12 @@ const ChannelsBar = () => {
     const variant = currentChannelId === id ? 'primary' : 'light';
 
     const ChannelButton = ({ className }) => (
-      <Nav.Link as={Button} onClick={handleSwitchChannel(id)} className={className} variant={variant}>
+      <Nav.Link
+        as={Button}
+        onClick={handleSwitchChannel(id)}
+        className={className}
+        variant={variant}
+      >
         {name.trim()}
       </Nav.Link>
     );
