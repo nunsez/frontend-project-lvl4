@@ -29,7 +29,8 @@ const InputTextForm = () => {
       const path = routes.channelMessagesPath(currentChannelId);
 
       try {
-        await axios.post(path, { data: { attributes } });
+        const response = await axios.post(path, { data: { attributes } });
+        console.log(response);
         resetForm();
         inputEl.current.focus();
       } catch (e) {

@@ -5,7 +5,9 @@ import { removeChannel } from './channels.js';
 
 const messagesSlice = createSlice({
   name: 'messagesInfo',
-  initialState: {},
+  initialState: {
+    messages: [],
+  },
   reducers: {
     addMessage: (state, { payload: { attributes } }) => {
       state.messages.push(attributes);
