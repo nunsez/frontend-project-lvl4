@@ -2,6 +2,7 @@
 
 // @ts-ignore
 import gon from 'gon';
+import Rollbar from 'rollbar';
 import init from './init.jsx';
 
 import 'core-js/stable';
@@ -11,6 +12,9 @@ import '../assets/application.scss';
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
+
+console.log(process.env.NODE_ENV);
+console.log(process.env.ROLLBAR_TOKEN);
 
 const p = document.createElement('p');
 p.classList.add('card-text');
@@ -31,4 +35,10 @@ card.append(cardBody);
 const container = document.querySelector('#chat');
 container.append(card);
 
-init({ gon, container });
+const rollbar = new Rollbar({
+  accessToken: process.env.ROLLBAR_TOKEN,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+});
+
+init({ gon, container, rollbar });
