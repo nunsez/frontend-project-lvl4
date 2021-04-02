@@ -5,10 +5,11 @@ import Dotenv from 'dotenv-webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const mode = process.env.NODE_ENV || 'development';
+const isDev = mode === 'development';
 
 module.exports = {
   mode,
-  devtool: 'inline-source-map',
+  devtool: isDev ? 'inline-source-map' : false,
   externals: {
     gon: 'gon',
   },
