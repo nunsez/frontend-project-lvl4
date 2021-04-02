@@ -1,12 +1,22 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { InputGroup, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
-import { useFormik } from 'formik';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import NicknameContext from '../nicknameContext.js';
+import { InputGroup, Button, Form } from 'react-bootstrap';
+import { animateScroll as scroll } from 'react-scroll';
+import { useFormik } from 'formik';
+
 import routes from '../../routes.js';
 import { chatMessageValidate as validate } from '../validators.js';
+import NicknameContext from '../nicknameContext.js';
 import RollbarContext from '../rollbarContext.js';
+
+const scrollChatToBottom = () => {
+  scroll.scrollToBottom({
+    containerId: 'messages-box',
+    smooth: 'easeOutCubic',
+    duration: 300,
+  });
+};
 
 const InputTextForm = () => {
   const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
@@ -40,6 +50,8 @@ const InputTextForm = () => {
     },
   });
 
+  useEffect(scrollChatToBottom, [f.errors.body]);
+
   return (
     <div className="mt-auto">
       <Form noValidate onSubmit={f.handleSubmit}>
@@ -72,9 +84,7 @@ const MessagesBox = () => {
   const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
   const activeChannelMessages = allMessages.filter((m) => m.channelId === currentChannelId);
 
-  useEffect(() => {
-    messagesBoxEl.current.scrollTop = messagesBoxEl.current.scrollHeight;
-  }, [activeChannelMessages]);
+  useEffect(scrollChatToBottom, [activeChannelMessages]);
 
   const renderMessage = ({ body, id, nickname }) => (
     <div key={id} className="text-break">
