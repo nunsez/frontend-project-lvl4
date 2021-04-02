@@ -2,6 +2,7 @@
 
 import path from 'path';
 // import Dotenv from 'dotenv-webpack';
+import { DefinePlugin } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const mode = process.env.NODE_ENV || 'development';
@@ -28,6 +29,9 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
+    new DefinePlugin({
+      'process.env.ROLLBAR_TOKEN': JSON.stringify(process.env.ROLLBAR_TOKEN),
+    }),
     // isDev && new Dotenv({ safe: true }),
   ],
   module: {
