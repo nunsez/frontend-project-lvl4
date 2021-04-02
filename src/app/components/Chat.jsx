@@ -29,13 +29,13 @@ const InputTextForm = () => {
       const path = routes.channelMessagesPath(currentChannelId);
 
       try {
-        const response = await axios.post(path, { data: { attributes } });
-        console.log(response);
+        await axios.post(path, { data: { attributes } });
         resetForm();
-        inputEl.current.focus();
       } catch (e) {
         const extra = { nickname, inChannel: currentChannelId };
         rollbar.error('axios chat error', e, extra);
+      } finally {
+        inputEl.current.focus();
       }
     },
   });
