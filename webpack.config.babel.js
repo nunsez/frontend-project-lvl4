@@ -28,7 +28,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    // new Dotenv({ safe: true }),
+    // isDev && new Dotenv({ safe: true }),
   ],
   module: {
     rules: [
