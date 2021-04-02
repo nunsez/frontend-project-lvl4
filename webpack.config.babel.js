@@ -1,7 +1,7 @@
 // @ts-check
 
 import path from 'path';
-// import Dotenv from 'dotenv-webpack';
+import Dotenv from 'dotenv-webpack';
 import { DefinePlugin } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
@@ -32,8 +32,8 @@ module.exports = {
     new DefinePlugin({
       'process.env.ROLLBAR_TOKEN': JSON.stringify(process.env.ROLLBAR_TOKEN),
     }),
-    // isDev && new Dotenv({ safe: true }),
-  ],
+    isDev && new Dotenv({ safe: true, defaults: true }),
+  ].filter(Boolean),
   module: {
     rules: [
       {
