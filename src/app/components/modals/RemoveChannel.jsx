@@ -1,9 +1,10 @@
 /* eslint-disable no-template-curly-in-string, newline-per-chained-call */
 
+import axios from 'axios';
 import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
-import axios from 'axios';
+
 import routes from '../../../routes.js';
 import { closeModal } from '../../reducers/modal.js';
 import RollbarContext from '../../rollbarContext.js';

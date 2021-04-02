@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
+
+import Chat from './Chat.jsx';
 import getModal from './modals';
 import ChannelsBar from './ChannelsBar.jsx';
-import Chat from './Chat.jsx';
 import NicknameContext from '../nicknameContext.js';
 
 const App = () => {

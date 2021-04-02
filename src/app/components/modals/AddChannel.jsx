@@ -1,5 +1,6 @@
 /* eslint-disable no-template-curly-in-string, newline-per-chained-call */
 
+import axios from 'axios';
 // prettier-ignore
 import React, {
   useRef, useEffect, useState, useContext,
@@ -7,10 +8,10 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import axios from 'axios';
+
 import routes from '../../../routes.js';
-import { closeModal } from '../../reducers/modal.js';
 import { channelNameValidate } from '../../validators.js';
+import { closeModal } from '../../reducers/modal.js';
 import RollbarContext from '../../rollbarContext.js';
 import NicknameContext from '../../nicknameContext.js';
 
