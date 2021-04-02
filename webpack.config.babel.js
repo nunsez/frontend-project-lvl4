@@ -27,8 +27,8 @@ module.exports = {
     compress: true,
   },
   plugins: [
-    new Dotenv({ safe: true }),
     new MiniCssExtractPlugin(),
+    isDev && new Dotenv({ safe: true }),
   ],
   module: {
     rules: [
