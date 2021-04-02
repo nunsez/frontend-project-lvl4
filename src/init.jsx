@@ -40,11 +40,7 @@ export default ({ gon, container, rollbar }) => {
     removeChannel: ({ data: { id } }) => store.dispatch(removeChannel({ id })),
   };
 
-  const listener = (eventName, message) => {
-    console.log(`websocket eventName: ${eventName};`, 'data logger:', message.data);
-    return socketEventMapping[eventName](message);
-  };
-
+  const listener = (eventName, message) => socketEventMapping[eventName](message);
   socket.onAny(listener);
 
   /* eslint-disable comma-dangle */
