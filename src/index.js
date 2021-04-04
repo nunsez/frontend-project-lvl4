@@ -2,7 +2,6 @@
 
 // @ts-ignore
 import gon from 'gon';
-import Rollbar from 'rollbar';
 import init from './init.jsx';
 
 import 'core-js/stable';
@@ -15,10 +14,4 @@ if (process.env.NODE_ENV !== 'production') {
 
 const container = document.querySelector('#chat');
 
-const rollbar = new Rollbar({
-  accessToken: process.env.ROLLBAR_TOKEN,
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-});
-
-init({ gon, container, rollbar });
+init({ gon, container });

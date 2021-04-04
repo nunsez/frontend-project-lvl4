@@ -8,11 +8,10 @@ import rootReducer from './app/reducers';
 import App from './app/components/App.jsx';
 import { addMessage } from './app/reducers/messages.js';
 import { addChannel, removeChannel, renameChannel } from './app/reducers/channels.js';
-import RollBarContext from './app/rollbarContext.js';
 
 const socket = io({ multiplex: false });
 
-export default ({ gon, container, rollbar }) => {
+export default ({ gon, container }) => {
   const preloadedState = {
     channelsInfo: {
       channels: gon.channels,
@@ -46,9 +45,7 @@ export default ({ gon, container, rollbar }) => {
   /* eslint-disable comma-dangle */
   render(
     <Provider store={store}>
-      <RollBarContext.Provider value={rollbar}>
-        <App />
-      </RollBarContext.Provider>
+      <App />
     </Provider>,
     container
   );
