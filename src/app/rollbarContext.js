@@ -6,7 +6,6 @@ const rollbar = new Rollbar({
   captureUncaught: true,
   captureUnhandledRejections: true,
 });
-console.log('token:', process.env.ROLLBAR_TOKEN);
 
 const RollbarContext = createContext(rollbar);
 
