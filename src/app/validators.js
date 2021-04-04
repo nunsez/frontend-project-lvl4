@@ -1,30 +1,26 @@
+import * as yup from 'yup';
+
 const CHANNEL_NAME_MIN_LENGTH = 3;
 const CHANNEL_NAME_MAX_LENGTH = 20;
+const CHANNEL_NAME_RANGE_LENGTH = `${CHANNEL_NAME_MIN_LENGTH} to ${CHANNEL_NAME_MAX_LENGTH}`;
+const CHANNEL_NAME_RANGE_MESSAGE = `Must be ${CHANNEL_NAME_RANGE_LENGTH} characters`;
 
-export const chatMessageValidate = ({ body }) => {
-  const errors = {};
-  const { length } = body.trim();
+const baseModalSchema = yup.object({
+  name: yup
+    .string()
+    .required('Required')
+    .min(CHANNEL_NAME_MIN_LENGTH, CHANNEL_NAME_RANGE_MESSAGE)
+    .max(CHANNEL_NAME_MAX_LENGTH, CHANNEL_NAME_RANGE_MESSAGE),
+});
 
-  if (length === 0) {
-    errors.body = 'Required';
-  }
+export const modalSchema = (channelsByName) => {
+  const additionalSchema = yup.object({
+    name: yup.string().trim().notOneOf(channelsByName, 'Must be unique'),
+  });
 
-  return errors;
+  return baseModalSchema.concat(additionalSchema);
 };
 
-export const channelNameValidate = (channelsByName) => ({ name }) => {
-  const errors = {};
-  const { length } = name.trim();
-
-  if (length < CHANNEL_NAME_MIN_LENGTH || length > CHANNEL_NAME_MAX_LENGTH) {
-    errors.name = `Must be ${CHANNEL_NAME_MIN_LENGTH} to ${CHANNEL_NAME_MAX_LENGTH} characters`;
-  }
-  if (channelsByName.includes(name)) {
-    errors.name = 'Must be unique';
-  }
-  if (length === 0) {
-    errors.name = 'Required';
-  }
-
-  return errors;
-};
+export const chatSchema = yup.object({
+  body: yup.string().trim().required('Required'),
+});

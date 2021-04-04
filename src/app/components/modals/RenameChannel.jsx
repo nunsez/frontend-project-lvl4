@@ -10,7 +10,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 
 import routes from '../../../routes.js';
-import { channelNameValidate } from '../../validators.js';
+import { modalSchema } from '../../validators.js';
 import { closeModal } from '../../reducers/modal.js';
 import RollbarContext from '../../rollbarContext.js';
 import NicknameContext from '../../nicknameContext.js';
@@ -38,9 +38,8 @@ const ModalPanel = () => {
 
   const f = useFormik({
     initialValues: { name: channelName },
-    validateOnBlur: false,
     validateOnChange,
-    validate: channelNameValidate(channelsByName),
+    validationSchema: modalSchema(channelsByName),
     onSubmit: async ({ name }) => {
       const path = routes.channelPath(channelId);
 

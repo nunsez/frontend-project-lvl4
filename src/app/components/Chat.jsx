@@ -6,7 +6,7 @@ import { animateScroll as scroll } from 'react-scroll';
 import { useFormik } from 'formik';
 
 import routes from '../../routes.js';
-import { chatMessageValidate as validate } from '../validators.js';
+import { chatSchema as validationSchema } from '../validators.js';
 import NicknameContext from '../nicknameContext.js';
 import RollbarContext from '../rollbarContext.js';
 
@@ -33,7 +33,7 @@ const InputTextForm = () => {
       body: '',
     },
     validateOnBlur: false,
-    validate,
+    validationSchema,
     onSubmit: async ({ body }, { resetForm }) => {
       const attributes = { body, nickname };
       const path = routes.channelMessagesPath(currentChannelId);
