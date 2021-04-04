@@ -6,7 +6,7 @@ import { animateScroll as scroll } from 'react-scroll';
 import { useFormik } from 'formik';
 
 import routes from '../../routes.js';
-import { chatSchema as validationSchema } from '../validators.js';
+import { chatMessagesSchema as validationSchema } from '../validators.js';
 import NicknameContext from '../nicknameContext.js';
 import RollbarContext from '../rollbarContext.js';
 

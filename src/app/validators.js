@@ -5,7 +5,7 @@ const CHANNEL_NAME_MAX_LENGTH = 20;
 const CHANNEL_NAME_RANGE_LENGTH = `${CHANNEL_NAME_MIN_LENGTH} to ${CHANNEL_NAME_MAX_LENGTH}`;
 const CHANNEL_NAME_RANGE_MESSAGE = `Must be ${CHANNEL_NAME_RANGE_LENGTH} characters`;
 
-const baseModalSchema = yup.object({
+const baseChannelNamesSchema = yup.object({
   name: yup
     .string()
     .required('Required')
@@ -13,14 +13,14 @@ const baseModalSchema = yup.object({
     .max(CHANNEL_NAME_MAX_LENGTH, CHANNEL_NAME_RANGE_MESSAGE),
 });
 
-export const modalSchema = (channelsByName) => {
+export const channelNamesSchema = (channelsByName) => {
   const additionalSchema = yup.object({
     name: yup.string().trim().notOneOf(channelsByName, 'Must be unique'),
   });
 
-  return baseModalSchema.concat(additionalSchema);
+  return baseChannelNamesSchema.concat(additionalSchema);
 };
 
-export const chatSchema = yup.object({
+export const chatMessagesSchema = yup.object({
   body: yup.string().trim().required('Required'),
 });
