@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { InputGroup, Button, Form } from 'react-bootstrap';
 import { animateScroll as scroll } from 'react-scroll';
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 
 import routes from '../../routes.js';
@@ -18,6 +19,7 @@ const scrollChatToBottom = () => {
 };
 
 const InputTextForm = () => {
+  const { t } = useTranslation();
   const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
   const { userName, rollbar } = useContext(Context);
 
@@ -63,10 +65,16 @@ const InputTextForm = () => {
             onBlur={f.handleBlur}
             readOnly={f.isSubmitting}
             isInvalid={!!f.errors.body}
+            className=" "
           />
           <InputGroup.Append>
-            <Button disabled={f.isSubmitting} type="submit" aria-label="submit">
-              Submit
+            <Button
+              disabled={f.isSubmitting}
+              type="submit"
+              aria-label="submit"
+              className="ml-2 rounded"
+            >
+              {t('chat.Submit')}
             </Button>
           </InputGroup.Append>
           <Form.Control.Feedback type="invalid">{f.errors.body}</Form.Control.Feedback>
@@ -84,9 +92,9 @@ const MessagesBox = () => {
 
   useEffect(scrollChatToBottom, [activeChannelMessages]);
 
-  const renderMessage = ({ body, id, nickname }) => (
+  const renderMessage = ({ body, id, userName }) => (
     <div key={id} className="text-break">
-      <b>{nickname}</b>
+      <b>{userName}</b>
       {': '}
       {body.trim()}
     </div>

@@ -1,0 +1,23 @@
+{
+  "validation": {
+    "required": "Обязательно для заполнения",
+    "notOneOf": "Должно быть уникально",
+    "range": "Имя должно быть от {{min}} до {{max}} символов"
+  },
+  "chat": {
+    "Submit": "Отправить"
+  },
+  "modal": {
+    "Add channel": "Добавить канал",
+    "Rename channel": "Переименовать канал",
+    "Remove channel": "Удалить канал",
+    "Are you sure?": "Вы уверены?",
+    "AddSubmit": "Добавить",
+    "RenameSubmit": "Подтвердить",
+    "RemoveSubmit": "Удалить",
+    "Cancel": "Отменить"
+  },
+  "Channels": "Список каналов",
+  "Rename": "Переименовать",
+  "Remove": "Удалить"
+}

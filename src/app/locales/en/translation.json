@@ -1,0 +1,23 @@
+{
+  "validation": {
+    "required": "Required",
+    "notOneOf": "Must be unique",
+    "range": "Must be {{min}} to {{max}} characters"
+  },
+  "chat": {
+    "Submit": "Submit"
+  },
+  "modal": {
+    "Add channel": "Add channel",
+    "Rename channel": "Rename channel",
+    "Remove channel": "Remove channel",
+    "Are you sure?": "Are you sure?",
+    "AddSubmit": "Submit",
+    "RenameSubmit": "Submit",
+    "RemoveSubmit": "Submit",
+    "Cancel": "Cancel"
+  },
+  "Channels": "Channels",
+  "Rename": "Rename",
+  "Remove": "Remove"
+}

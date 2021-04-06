@@ -2,6 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { Button, Nav } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import ChannelItem from './ChannelItem.jsx';
 import { openModal } from '../reducers/modal';
@@ -9,6 +10,7 @@ import { setCurrentChannelId } from '../reducers/channels';
 
 const ChannelsHeader = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleOpenAddChannelModal = () => {
     dispatch(openModal({ type: 'AddChannel' }));
@@ -16,7 +18,7 @@ const ChannelsHeader = () => {
 
   return (
     <div className="d-flex mb-2">
-      <span>Channels</span>
+      <span>{t('Channels')}</span>
       <Button onClick={handleOpenAddChannelModal} className="ml-auto p-0" variant="link">
         +
       </Button>

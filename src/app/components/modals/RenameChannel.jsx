@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 
 import routes from '../../../routes.js';
@@ -16,6 +17,7 @@ import Context from '../../context.js';
 
 const ModalPanel = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { userName, rollbar } = useContext(Context);
   const {
     isOpened,
@@ -66,7 +68,7 @@ const ModalPanel = () => {
   return (
     <Modal show={isOpened} onHide={handleHideModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Rename a channel</Modal.Title>
+        <Modal.Title>{t('modal.Rename channel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -83,14 +85,14 @@ const ModalPanel = () => {
               isInvalid={!!f.errors.name}
             />
             <Form.Control.Feedback type="invalid" className="d-block mb-2">
-              {f.errors.name}
+              {t(f.errors.name)}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button onClick={handleHideModal} className="mr-2" variant="secondary">
-                Cancel
+                {t('modal.Cancel')}
               </Button>
               <Button disabled={f.isSubmitting} type="submit" variant="primary">
-                Submit
+                {t('modal.RenameSubmit')}
               </Button>
             </div>
           </Form.Group>

@@ -4,20 +4,25 @@ import propTypes from 'prop-types';
 import {
   Dropdown, ButtonGroup, Button, Nav,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 // prettier-ignore
 const DropdownWrapper = ({
   children, variant, onRemove, onRename,
-}) => (
-  <Dropdown as={ButtonGroup} className="d-flex mb-2">
-    {children}
-    <Dropdown.Toggle split variant={variant} className="flex-grow-0" />
-    <Dropdown.Menu>
-      <Dropdown.Item onClick={onRemove}>Remove</Dropdown.Item>
-      <Dropdown.Item onClick={onRename}>Rename</Dropdown.Item>
-    </Dropdown.Menu>
-  </Dropdown>
-);
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <Dropdown as={ButtonGroup} className="d-flex mb-2">
+      {children}
+      <Dropdown.Toggle split variant={variant} className="flex-grow-0" />
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={onRemove}>{t('Remove')}</Dropdown.Item>
+        <Dropdown.Item onClick={onRename}>{t('Rename')}</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+};
 
 DropdownWrapper.propTypes = {
   children: propTypes.element.isRequired,

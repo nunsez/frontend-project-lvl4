@@ -4,6 +4,7 @@ import axios from 'axios';
 import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import routes from '../../../routes.js';
 import { closeModal } from '../../reducers/modal.js';
@@ -11,6 +12,7 @@ import Context from '../../context.js';
 
 const ModalPanel = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { userName, rollbar } = useContext(Context);
   const {
     isOpened,
@@ -36,17 +38,17 @@ const ModalPanel = () => {
   return (
     <Modal show={isOpened} onHide={handleHideModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Remove channel</Modal.Title>
+        <Modal.Title>{t('modal.Remove channel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        Are you sure?
+        <p className="text-center">{t('modal.Are you sure?')}</p>
         <div className="d-flex justify-content-between">
           <Button onClick={handleHideModal} className="mr-2" variant="secondary">
-            Cancel
+            {t('modal.Cancel')}
           </Button>
           <Button onClick={handleRemoveChannel} variant="danger">
-            Confirm
+            {t('modal.RemoveSubmit')}
           </Button>
         </div>
       </Modal.Body>
