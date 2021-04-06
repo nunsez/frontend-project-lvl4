@@ -10,7 +10,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 
 import routes from '../../../routes.js';
-import { channelNamesSchema } from '../../validators.js';
+import { getChannelNamesSchema } from '../../validators.js';
 import { closeModal } from '../../reducers/modal.js';
 import Context from '../../context.js';
 
@@ -37,19 +37,31 @@ const ModalPanel = () => {
   const f = useFormik({
     initialValues: { name: channelName },
     validateOnChange,
-    validationSchema: channelNamesSchema(channelsByName),
-    onSubmit: async ({ name }) => {
+    validationSchema: getChannelNamesSchema(channelsByName),
+    onSubmit: async ({ name }, actions) => {
       const path = routes.channelPath(channelId);
+      console.log('actions', actions);
 
       try {
         await axios.patch(path, { data: { attributes: { name } } });
-        dispatch(closeModal());
+        handleHideModal();
       } catch (e) {
         const extra = { userName, inChannel: channelId };
         rollbar.error('axios rename channel error', e, extra);
       }
     },
   });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setValidateOnChange(true);
+    f.handleSubmit(e);
+  };
+
+  const handleBlur = (e) => {
+    setValidateOnChange(true);
+    f.handleBlur(e);
+  };
 
   return (
     <Modal show={isOpened} onHide={handleHideModal}>
@@ -58,11 +70,11 @@ const ModalPanel = () => {
       </Modal.Header>
 
       <Modal.Body>
-        <Form className="" noValidate onSubmit={f.handleSubmit}>
+        <Form className="" noValidate onSubmit={handleSubmit}>
           <Form.Group>
             <Form.Control
               ref={inputRef}
-              onBlur={f.handleBlur}
+              onBlur={handleBlur}
               onChange={f.handleChange}
               className="mb-2"
               name="name"
@@ -77,12 +89,7 @@ const ModalPanel = () => {
               <Button onClick={handleHideModal} className="mr-2" variant="secondary">
                 Cancel
               </Button>
-              <Button
-                disabled={f.isSubmitting}
-                type="submit"
-                variant="primary"
-                onClick={() => setValidateOnChange(true)}
-              >
+              <Button disabled={f.isSubmitting} type="submit" variant="primary">
                 Submit
               </Button>
             </div>
