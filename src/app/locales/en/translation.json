@@ -1,4 +1,5 @@
 {
+  "language": "English",
   "validation": {
     "required": "Required",
     "notOneOf": "Must be unique",
@@ -19,5 +20,6 @@
   },
   "Channels": "Channels",
   "Rename": "Rename",
-  "Remove": "Remove"
+  "Remove": "Remove",
+  "Change language": "Change language"
 }

@@ -5,8 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import ChannelItem from './ChannelItem.jsx';
+import LanguageSelection from './LanguageSelection.jsx';
 import { openModal } from '../reducers/modal';
 import { setCurrentChannelId } from '../reducers/channels';
+import { setLanguage } from '../reducers/language.js';
 
 const ChannelsHeader = () => {
   const dispatch = useDispatch();
@@ -40,6 +42,10 @@ const ChannelsBar = () => {
     dispatch(openModal({ type, extra: { channelId: id, channelName: name } }));
   };
 
+  const handleSetLanguage = ({ target: { value } }) => {
+    dispatch(setLanguage({ language: value }));
+  };
+
   const ChannelsList = () => (
     <Nav fill className="flex-column" variant="pills">
       {channels.map((channel) => (
@@ -65,6 +71,8 @@ const ChannelsBar = () => {
 
   return (
     <div className="col-3 border-right">
+      <LanguageSelection onChange={handleSetLanguage} />
+      <hr />
       <ChannelsHeader />
       <ChannelsList />
     </div>
