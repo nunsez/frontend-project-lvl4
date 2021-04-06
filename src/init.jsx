@@ -15,7 +15,7 @@ import Context from './app/context.js';
 
 const getUserName = () => {
   const userName = Cookies.get('userName') ?? faker.internet.userName();
-  Cookies.set('nickname', userName, { expires: 1, sameSite: 'strict' });
+  Cookies.set('userName', userName, { expires: 1, sameSite: 'strict' });
 
   return userName;
 };
