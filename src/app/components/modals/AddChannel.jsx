@@ -12,13 +12,11 @@ import { useFormik } from 'formik';
 import routes from '../../../routes.js';
 import { channelNamesSchema } from '../../validators.js';
 import { closeModal } from '../../reducers/modal.js';
-import RollbarContext from '../../rollbarContext.js';
-import NicknameContext from '../../nicknameContext.js';
+import Context from '../../context.js';
 
 const ModalPanel = () => {
   const dispatch = useDispatch();
-  const rollbar = useContext(RollbarContext);
-  const nickname = useContext(NicknameContext);
+  const { userName, rollbar } = useContext(Context);
   const { isOpened } = useSelector((state) => state.modalInfo);
   const [validateOnChange, setValidateOnChange] = useState(false);
   const channels = useSelector(({ channelsInfo }) => channelsInfo.channels);
@@ -44,7 +42,7 @@ const ModalPanel = () => {
         await axios.post(path, { data: { attributes: { name } } });
         handleHideModal();
       } catch (e) {
-        const extra = { nickname };
+        const extra = { userName };
         rollbar.error('axios remove channel error', e, extra);
       }
     },

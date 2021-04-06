@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux';
 import Chat from './Chat.jsx';
 import getModal from './modals';
 import ChannelsBar from './ChannelsBar.jsx';
-import NicknameContext from '../nicknameContext.js';
+import Context from '../context.js';
 
 const App = () => {
-  const nickname = useContext(NicknameContext);
+  const { userName } = useContext(Context);
   const modalInfo = useSelector((state) => state.modalInfo);
   const Modal = getModal(modalInfo.type);
 
-  document.title = `Slack | ${nickname}`;
+  document.title = `Slack | ${userName}`;
 
   return (
     <div className="row h-100 pb-3">

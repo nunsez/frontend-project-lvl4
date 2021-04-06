@@ -12,13 +12,11 @@ import { useFormik } from 'formik';
 import routes from '../../../routes.js';
 import { channelNamesSchema } from '../../validators.js';
 import { closeModal } from '../../reducers/modal.js';
-import RollbarContext from '../../rollbarContext.js';
-import NicknameContext from '../../nicknameContext.js';
+import Context from '../../context.js';
 
 const ModalPanel = () => {
   const dispatch = useDispatch();
-  const rollbar = useContext(RollbarContext);
-  const nickname = useContext(NicknameContext);
+  const { userName, rollbar } = useContext(Context);
   const {
     isOpened,
     extra: { channelId, channelName },
@@ -47,7 +45,7 @@ const ModalPanel = () => {
         await axios.patch(path, { data: { attributes: { name } } });
         dispatch(closeModal());
       } catch (e) {
-        const extra = { nickname, inChannel: channelId };
+        const extra = { userName, inChannel: channelId };
         rollbar.error('axios rename channel error', e, extra);
       }
     },

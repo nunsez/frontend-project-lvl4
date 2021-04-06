@@ -7,13 +7,11 @@ import { Modal, Button } from 'react-bootstrap';
 
 import routes from '../../../routes.js';
 import { closeModal } from '../../reducers/modal.js';
-import RollbarContext from '../../rollbarContext.js';
-import NicknameContext from '../../nicknameContext.js';
+import Context from '../../context.js';
 
 const ModalPanel = () => {
   const dispatch = useDispatch();
-  const rollbar = useContext(RollbarContext);
-  const nickname = useContext(NicknameContext);
+  const { userName, rollbar } = useContext(Context);
   const {
     isOpened,
     extra: { channelId },
@@ -30,7 +28,7 @@ const ModalPanel = () => {
       await axios.delete(path);
       dispatch(closeModal());
     } catch (e) {
-      const extra = { nickname, inChannel: channelId };
+      const extra = { userName, inChannel: channelId };
       rollbar.error('axios remove channel error', e, extra);
     }
   };

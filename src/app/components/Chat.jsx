@@ -7,8 +7,7 @@ import { useFormik } from 'formik';
 
 import routes from '../../routes.js';
 import { chatMessagesSchema as validationSchema } from '../validators.js';
-import NicknameContext from '../nicknameContext.js';
-import RollbarContext from '../rollbarContext.js';
+import Context from '../context.js';
 
 const scrollChatToBottom = () => {
   scroll.scrollToBottom({
@@ -20,8 +19,7 @@ const scrollChatToBottom = () => {
 
 const InputTextForm = () => {
   const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
-  const nickname = useContext(NicknameContext);
-  const rollbar = useContext(RollbarContext);
+  const { userName, rollbar } = useContext(Context);
 
   const inputEl = useRef();
   useEffect(() => {
@@ -35,14 +33,14 @@ const InputTextForm = () => {
     validateOnBlur: false,
     validationSchema,
     onSubmit: async ({ body }, { resetForm }) => {
-      const attributes = { body, nickname };
+      const attributes = { body, userName };
       const path = routes.channelMessagesPath(currentChannelId);
 
       try {
         await axios.post(path, { data: { attributes } });
         resetForm();
       } catch (e) {
-        const extra = { nickname, inChannel: currentChannelId };
+        const extra = { userName, inChannel: currentChannelId };
         rollbar.error('axios chat error', e, extra);
       } finally {
         inputEl.current.focus();
