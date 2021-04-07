@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 
 import routes from '../../routes.js';
-import rollbar from '../rollbar.js';
-import { chatMessagesSchema as validationSchema } from '../validators.js';
-import Context from '../context.js';
+import rollbar from '../utils/rollbar.js';
+import { chatMessagesSchema as validationSchema } from '../utils/validators.js';
+import Context from '../utils/context.js';
 
 const scrollChatToBottom = () => {
   scroll.scrollToBottom({

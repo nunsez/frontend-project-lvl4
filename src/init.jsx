@@ -5,13 +5,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { io } from 'socket.io-client';
 import Cookies from 'js-cookie';
 import faker from 'faker';
-import i18n from './app/i18n.js';
 
+import i18n from './app/utils/i18n.js';
 import rootReducer from './app/reducers';
 import App from './app/components/App.jsx';
 import { addMessage } from './app/reducers/messages.js';
 import { addChannel, removeChannel, renameChannel } from './app/reducers/channels.js';
-import Context from './app/context.js';
+import Context from './app/utils/context.js';
 
 const avaibleLanguages = [
   { name: 'English', tag: 'en' },

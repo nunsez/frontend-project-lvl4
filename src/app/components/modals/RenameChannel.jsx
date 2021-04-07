@@ -11,10 +11,10 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 
 import routes from '../../../routes.js';
-import rollbar from '../../rollbar.js';
-import { getChannelNamesSchema } from '../../validators.js';
+import rollbar from '../../utils/rollbar.js';
+import { getChannelNamesSchema } from '../../utils/validators.js';
 import { closeModal } from '../../reducers/modal.js';
-import Context from '../../context.js';
+import Context from '../../utils/context.js';
 
 const ModalPanel = () => {
   const [shouldValidate, setShouldValidate] = useState(false);

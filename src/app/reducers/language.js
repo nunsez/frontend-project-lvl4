@@ -3,7 +3,7 @@
 import 'regenerator-runtime/runtime';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import i18n from '../i18n.js';
+import i18n from '../utils/i18n.js';
 
 // prettier-ignore
 export const setLanguage = createAsyncThunk(

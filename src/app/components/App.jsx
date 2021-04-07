@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import Chat from './Chat.jsx';
 import getModal from './modals';
 import ChannelsBar from './ChannelsBar.jsx';
-import Context from '../context.js';
+import Context from '../utils/context.js';
 
 const App = () => {
   const { userName } = useContext(Context);
