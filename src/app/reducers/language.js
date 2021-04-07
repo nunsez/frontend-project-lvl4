@@ -10,8 +10,6 @@ export const setLanguage = createAsyncThunk(
   'setLanguage',
   async ({ language }) => {
     await i18n.changeLanguage(language);
-
-    return { language };
   },
 );
 
@@ -22,8 +20,8 @@ const languageSlice = createSlice({
     avaibleLanguages: [],
   },
   extraReducers: {
-    [setLanguage.fulfilled]: (state, { payload: { language } }) => {
-      state.activeLanguage = language;
+    [setLanguage.fulfilled]: (state, { meta: { arg } }) => {
+      state.activeLanguage = arg.language;
     },
   },
 });
