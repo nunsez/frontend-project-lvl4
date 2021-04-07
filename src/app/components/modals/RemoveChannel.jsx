@@ -7,13 +7,14 @@ import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import routes from '../../../routes.js';
+import rollbar from '../../rollbar.js';
 import { closeModal } from '../../reducers/modal.js';
 import Context from '../../context.js';
 
 const ModalPanel = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { userName, rollbar } = useContext(Context);
+  const { userName } = useContext(Context);
   const {
     isOpened,
     extra: { channelId },

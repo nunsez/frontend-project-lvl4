@@ -11,13 +11,14 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 
 import routes from '../../../routes.js';
+import rollbar from '../../rollbar.js';
 import { getChannelNamesSchema } from '../../validators.js';
 import { closeModal } from '../../reducers/modal.js';
 import Context from '../../context.js';
 
 const ModalPanel = () => {
   const [wasDirty, setWasDirty] = useState(false);
-  const { userName, rollbar } = useContext(Context);
+  const { userName } = useContext(Context);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { isOpened } = useSelector((state) => state.modalInfo);

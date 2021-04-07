@@ -30,7 +30,7 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin(),
     new DefinePlugin({
-      'process.env.ROLLBAR_TOKEN': JSON.stringify(process.env.ROLLBAR_TOKEN),
+      'process.env': JSON.stringify(process.env),
     }),
     isDev && new Dotenv({ safe: true, defaults: true }),
   ].filter(Boolean),

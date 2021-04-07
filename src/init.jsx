@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { io } from 'socket.io-client';
 import Cookies from 'js-cookie';
-import Rollbar from 'rollbar';
 import faker from 'faker';
 import i18n from './app/i18n.js';
 
@@ -25,15 +24,6 @@ const getUserName = () => {
 
   return userName;
 };
-
-// prettier-ignore
-const getRollbar = () => (
-  new Rollbar({
-    accessToken: process.env.ROLLBAR_TOKEN,
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-  })
-);
 
 export default ({ gon, container }) => {
   const preloadedState = {
@@ -72,12 +62,11 @@ export default ({ gon, container }) => {
   socket.onAny(listener);
 
   const userName = getUserName();
-  const rollbar = getRollbar();
 
   /* eslint-disable comma-dangle */
   render(
     <Provider store={store}>
-      <Context.Provider value={{ userName, rollbar }}>
+      <Context.Provider value={{ userName }}>
         <App />
       </Context.Provider>
     </Provider>,
