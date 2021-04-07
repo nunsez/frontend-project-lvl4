@@ -41,9 +41,8 @@ const ModalPanel = () => {
   const f = useFormik({
     initialValues: { name: channelName },
     validationSchema: getChannelNamesSchema(channelsByName),
-    onSubmit: async ({ name }, actions) => {
+    onSubmit: async ({ name }) => {
       const path = routes.channelPath(channelId);
-      console.log('actions', actions);
 
       try {
         await axios.patch(path, { data: { attributes: { name } } });

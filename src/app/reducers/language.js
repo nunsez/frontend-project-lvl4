@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
+
 import 'regenerator-runtime/runtime';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import i18n from '../i18n.js';
 
 // prettier-ignore
