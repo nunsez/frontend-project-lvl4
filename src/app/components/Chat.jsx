@@ -65,7 +65,7 @@ const InputTextForm = () => {
             onChange={f.handleChange}
             onBlur={f.handleBlur}
             readOnly={f.isSubmitting}
-            isInvalid={!!f.errors.body}
+            isInvalid={f.errors.body?.key}
             className=" "
           />
           <InputGroup.Append>
@@ -78,7 +78,7 @@ const InputTextForm = () => {
               {t('chat.Submit')}
             </Button>
           </InputGroup.Append>
-          <Form.Control.Feedback type="invalid">{f.errors.body}</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">{t(f.errors.body?.key)}</Form.Control.Feedback>
         </InputGroup>
       </Form>
     </div>

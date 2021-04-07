@@ -1,24 +1,28 @@
 import * as yup from 'yup';
-import i18n from './i18n.js';
 
 const CHANNEL_NAME_MIN_LENGTH = 3;
 const CHANNEL_NAME_MAX_LENGTH = 20;
 
-const t = i18n.t.bind(i18n);
+const getYupFeedback = (type) => () => {
+  const key = `validation.${type}`;
 
-const channelNameRangeMessage = t('validation.range', {
-  min: CHANNEL_NAME_MIN_LENGTH,
-  max: CHANNEL_NAME_MAX_LENGTH,
-});
+  switch (type) {
+    case 'range':
+      return { key, min: CHANNEL_NAME_MIN_LENGTH, max: CHANNEL_NAME_MAX_LENGTH };
+
+    default:
+      return { key };
+  }
+};
 
 yup.setLocale({
   string: {
-    min: channelNameRangeMessage,
-    max: channelNameRangeMessage,
+    min: getYupFeedback('range'),
+    max: getYupFeedback('range'),
   },
   mixed: {
-    required: 'validation.required',
-    notOneOf: 'validation.notOneOf',
+    required: getYupFeedback('required'),
+    notOneOf: getYupFeedback('notOneOf'),
   },
 });
 

@@ -55,6 +55,16 @@ const ModalPanel = () => {
     if (f.dirty) setWasDirty(true);
   });
 
+  const renderFeedback = (field) => {
+    if (!f.errors[field]) {
+      return null;
+    }
+
+    const { key, min = '', max = '' } = f.errors[field];
+
+    return t(key, { min, max });
+  };
+
   return (
     <Modal show={isOpened} onHide={handleHideModal}>
       <Modal.Header closeButton>
@@ -72,10 +82,10 @@ const ModalPanel = () => {
               name="name"
               value={f.values.name}
               readOnly={f.isSubmitting}
-              isInvalid={wasDirty && f.touched.name && f.errors.name}
+              isInvalid={wasDirty && f.touched.name && f.errors.name?.key}
             />
             <Form.Control.Feedback type="invalid" className="d-block mb-2">
-              {wasDirty && f.touched.name && t(f.errors.name)}
+              {wasDirty && f.touched.name && renderFeedback('name')}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button onClick={handleHideModal} className="mr-2" variant="secondary">
