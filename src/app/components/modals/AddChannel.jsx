@@ -3,7 +3,7 @@
 import axios from 'axios';
 // prettier-ignore
 import React, {
-  useRef, useEffect, useState, useContext,
+  useRef, useEffect, useContext, useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
@@ -16,12 +16,13 @@ import { closeModal } from '../../reducers/modal.js';
 import Context from '../../context.js';
 
 const ModalPanel = () => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const [wasDirty, setWasDirty] = useState(false);
   const { userName, rollbar } = useContext(Context);
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const { isOpened } = useSelector((state) => state.modalInfo);
-  const [validateOnChange, setValidateOnChange] = useState(false);
   const channels = useSelector(({ channelsInfo }) => channelsInfo.channels);
+
   const channelsByName = channels.map((c) => c.name);
 
   const inputRef = useRef();
@@ -35,7 +36,6 @@ const ModalPanel = () => {
 
   const f = useFormik({
     initialValues: { name: '' },
-    validateOnChange,
     validationSchema: getChannelNamesSchema(channelsByName),
     onSubmit: async ({ name }) => {
       const path = routes.channelsPath();
@@ -50,16 +50,9 @@ const ModalPanel = () => {
     },
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setValidateOnChange(true);
-    f.handleSubmit(e);
-  };
-
-  const handleBlur = (e) => {
-    setValidateOnChange(true);
-    f.handleBlur(e);
-  };
+  useEffect(() => {
+    if (f.dirty) setWasDirty(true);
+  });
 
   return (
     <Modal show={isOpened} onHide={handleHideModal}>
@@ -68,20 +61,20 @@ const ModalPanel = () => {
       </Modal.Header>
 
       <Modal.Body>
-        <Form className="" noValidate onSubmit={handleSubmit}>
+        <Form className="" noValidate onSubmit={f.handleSubmit}>
           <Form.Group>
             <Form.Control
               ref={inputRef}
-              onBlur={handleBlur}
+              onBlur={f.handleBlur}
               onChange={f.handleChange}
               className="mb-2"
               name="name"
               value={f.values.name}
               readOnly={f.isSubmitting}
-              isInvalid={!!f.errors.name}
+              isInvalid={wasDirty && f.touched.name && f.errors.name}
             />
             <Form.Control.Feedback type="invalid" className="d-block mb-2">
-              {t(f.errors.name)}
+              {wasDirty && f.touched.name && t(f.errors.name)}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button onClick={handleHideModal} className="mr-2" variant="secondary">

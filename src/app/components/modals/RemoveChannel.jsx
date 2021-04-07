@@ -28,7 +28,7 @@ const ModalPanel = () => {
 
     try {
       await axios.delete(path);
-      dispatch(closeModal());
+      handleHideModal();
     } catch (e) {
       const extra = { userName, inChannel: channelId };
       rollbar.error('axios remove channel error', e, extra);
