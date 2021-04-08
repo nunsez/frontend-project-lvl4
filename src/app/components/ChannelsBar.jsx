@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import propTypes from 'prop-types';
 import { Button, Nav } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,6 +9,7 @@ import LanguageSelection from './LanguageSelection.jsx';
 import { openModal } from '../reducers/modal';
 import { setCurrentChannelId } from '../reducers/channels';
 import { setLanguage } from '../reducers/language.js';
+import Context from '../utils/context.js';
 
 const ChannelsHeader = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const ChannelsHeader = () => {
 };
 
 const ChannelsBar = () => {
+  const { i18n } = useContext(Context);
   const dispatch = useDispatch();
   const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
 
@@ -43,7 +45,7 @@ const ChannelsBar = () => {
   };
 
   const handleSetLanguage = ({ target: { value } }) => {
-    dispatch(setLanguage({ language: value }));
+    dispatch(setLanguage({ i18n, language: value }));
   };
 
   const ChannelsList = () => (

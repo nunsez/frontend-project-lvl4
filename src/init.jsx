@@ -1,12 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import { initReactI18next } from 'react-i18next';
 import { configureStore } from '@reduxjs/toolkit';
+import LanguageDetector from 'i18next-browser-languagedetector';
 import { io } from 'socket.io-client';
 import Cookies from 'js-cookie';
+import i18n from 'i18next';
 import faker from 'faker';
 
-import i18n from './app/utils/i18n.js';
+import resources from './app/locales/index.js';
 import rootReducer from './app/reducers';
 import App from './app/components/App.jsx';
 import { addMessage } from './app/reducers/messages.js';
@@ -26,6 +29,17 @@ const getUserName = () => {
 };
 
 export default ({ gon, container }) => {
+  i18n
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+      fallbackLng: 'en',
+      resources,
+      interpolation: {
+        escapeValue: false, // not needed for react as it escapes by default
+      },
+    });
+
   const preloadedState = {
     channelsInfo: {
       channels: gon.channels,
@@ -66,7 +80,7 @@ export default ({ gon, container }) => {
   /* eslint-disable comma-dangle */
   render(
     <Provider store={store}>
-      <Context.Provider value={{ userName }}>
+      <Context.Provider value={{ userName, i18n }}>
         <App />
       </Context.Provider>
     </Provider>,
