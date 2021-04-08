@@ -29,7 +29,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new DefinePlugin({
+    !isDev && new DefinePlugin({
       'process.env': JSON.stringify(process.env),
     }),
     isDev && new Dotenv({ safe: true, defaults: true }),
