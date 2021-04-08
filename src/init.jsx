@@ -8,6 +8,7 @@ import { io } from 'socket.io-client';
 import Cookies from 'js-cookie';
 import i18n from 'i18next';
 import faker from 'faker';
+import * as yup from 'yup';
 
 import resources from './app/locales/index.js';
 import rootReducer from './app/reducers';
@@ -15,6 +16,7 @@ import App from './app/components/App.jsx';
 import { addMessage } from './app/reducers/messages.js';
 import { addChannel, removeChannel, renameChannel } from './app/reducers/channels.js';
 import Context from './app/utils/context.js';
+import { getYupFeedback } from './app/utils/validators.js';
 
 const avaibleLanguages = [
   { name: 'English', tag: 'en' },
@@ -39,6 +41,17 @@ export default ({ gon, container }) => {
         escapeValue: false, // not needed for react as it escapes by default
       },
     });
+
+  yup.setLocale({
+    string: {
+      min: getYupFeedback('range'),
+      max: getYupFeedback('range'),
+    },
+    mixed: {
+      required: getYupFeedback('required'),
+      notOneOf: getYupFeedback('notOneOf'),
+    },
+  });
 
   const preloadedState = {
     channelsInfo: {

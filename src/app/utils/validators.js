@@ -3,7 +3,7 @@ import * as yup from 'yup';
 const CHANNEL_NAME_MIN_LENGTH = 3;
 const CHANNEL_NAME_MAX_LENGTH = 20;
 
-const getYupFeedback = (type) => () => {
+export const getYupFeedback = (type) => () => {
   const key = `validation.${type}`;
 
   switch (type) {
@@ -14,17 +14,6 @@ const getYupFeedback = (type) => () => {
       return { key };
   }
 };
-
-yup.setLocale({
-  string: {
-    min: getYupFeedback('range'),
-    max: getYupFeedback('range'),
-  },
-  mixed: {
-    required: getYupFeedback('required'),
-    notOneOf: getYupFeedback('notOneOf'),
-  },
-});
 
 export const getChannelNamesSchema = (channelsByName) => {
   const channelNamesSchema = yup.object({
@@ -40,6 +29,10 @@ export const getChannelNamesSchema = (channelsByName) => {
   return channelNamesSchema;
 };
 
-export const chatMessagesSchema = yup.object({
-  body: yup.string().trim().required(),
-});
+export const getChatMessagesSchema = () => {
+  const chatMessagesSchema = yup.object({
+    body: yup.string().trim().required(),
+  });
+
+  return chatMessagesSchema;
+};

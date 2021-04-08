@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 
 import routes from '../../routes.js';
 import rollbar from '../utils/rollbar.js';
-import { chatMessagesSchema as validationSchema } from '../utils/validators.js';
+import { getChatMessagesSchema as validationSchema } from '../utils/validators.js';
 import Context from '../utils/context.js';
 
 const scrollChatToBottom = () => {
@@ -51,12 +51,12 @@ const InputTextForm = () => {
     },
   });
 
-  useEffect(scrollChatToBottom, [f.errors.body]);
+  useEffect(scrollChatToBottom, [f.errors.body?.key]);
 
   return (
     <div className="mt-auto">
       <Form noValidate onSubmit={f.handleSubmit}>
-        <InputGroup hasValidation={!!f.errors.body}>
+        <InputGroup hasValidation={!!f.errors.body?.key}>
           <Form.Control
             name="body"
             aria-label="body"
@@ -65,8 +65,7 @@ const InputTextForm = () => {
             onChange={f.handleChange}
             onBlur={f.handleBlur}
             readOnly={f.isSubmitting}
-            isInvalid={f.errors.body?.key}
-            className=" "
+            isInvalid={!!f.errors.body?.key}
           />
           <InputGroup.Append>
             <Button
