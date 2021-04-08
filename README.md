@@ -21,6 +21,7 @@
 - Webpack
 - Heroku deploy
 - Rollbar
+- i18next
 
 ### Install
 ```sh
