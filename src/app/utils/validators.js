@@ -3,7 +3,7 @@ import * as yup from 'yup';
 const CHANNEL_NAME_MIN_LENGTH = 3;
 const CHANNEL_NAME_MAX_LENGTH = 20;
 
-export const getYupFeedback = (type) => () => {
+const getYupFeedback = (type) => () => {
   const key = `validation.${type}`;
 
   switch (type) {
@@ -13,6 +13,19 @@ export const getYupFeedback = (type) => () => {
     default:
       return { key };
   }
+};
+
+export const yupSetLocale = () => {
+  yup.setLocale({
+    string: {
+      min: getYupFeedback('range'),
+      max: getYupFeedback('range'),
+    },
+    mixed: {
+      required: getYupFeedback('required'),
+      notOneOf: getYupFeedback('notOneOf'),
+    },
+  });
 };
 
 export const getChannelNamesSchema = (channelsByName) => {

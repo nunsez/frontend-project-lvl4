@@ -1,22 +1,19 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { initReactI18next } from 'react-i18next';
 import { configureStore } from '@reduxjs/toolkit';
-import LanguageDetector from 'i18next-browser-languagedetector';
 import { io } from 'socket.io-client';
 import Cookies from 'js-cookie';
 import i18n from 'i18next';
 import faker from 'faker';
-import * as yup from 'yup';
 
-import resources from './app/locales';
+import i18nInit from './app/utils/i18n.js';
 import rootReducer from './app/reducers';
 import App from './app/components/App.jsx';
 import { addMessage } from './app/reducers/messages.js';
 import { addChannel, removeChannel, renameChannel } from './app/reducers/channels.js';
 import Context from './app/utils/context.js';
-import { getYupFeedback } from './app/utils/validators.js';
+import { yupSetLocale } from './app/utils/validators.js';
 import getRollbar from './app/utils/rollbar.js';
 
 const getUserName = () => {
@@ -26,28 +23,18 @@ const getUserName = () => {
   return userName;
 };
 
-export default ({ initialData, container }) => {
-  i18n
-    .use(LanguageDetector)
-    .use(initReactI18next)
-    .init({
-      fallbackLng: 'en',
-      resources,
-      interpolation: {
-        escapeValue: false, // not needed for react as it escapes by default
-      },
-    });
+export default async ({ initialData, container }) => {
+  yupSetLocale();
 
-  yup.setLocale({
-    string: {
-      min: getYupFeedback('range'),
-      max: getYupFeedback('range'),
-    },
-    mixed: {
-      required: getYupFeedback('required'),
-      notOneOf: getYupFeedback('notOneOf'),
-    },
-  });
+  const userName = getUserName();
+  const rollbar = getRollbar();
+
+  try {
+    await i18nInit();
+  } catch (e) {
+    const extra = { userName };
+    rollbar.warn(e, extra);
+  }
 
   const preloadedState = {
     channelsInfo: {
@@ -83,13 +70,10 @@ export default ({ initialData, container }) => {
   const listener = (eventName, message) => socketEventMapping[eventName](message);
   socket.onAny(listener);
 
-  const userName = getUserName();
-  const rollbar = getRollbar();
-
   /* eslint-disable comma-dangle */
   render(
     <Provider store={store}>
-      <Context.Provider value={{ userName, i18n, rollbar }}>
+      <Context.Provider value={{ userName, rollbar }}>
         <App />
       </Context.Provider>
     </Provider>,
