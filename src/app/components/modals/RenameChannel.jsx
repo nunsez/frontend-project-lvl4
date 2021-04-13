@@ -1,10 +1,7 @@
 /* eslint-disable no-template-curly-in-string, newline-per-chained-call */
 
 import axios from 'axios';
-// prettier-ignore
-import React, {
-  useRef, useEffect, useContext, useState,
-} from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +13,6 @@ import { closeModal } from '../../reducers/modal.js';
 import Context from '../../utils/context.js';
 
 const ModalPanel = () => {
-  const [shouldValidate, setShouldValidate] = useState(false);
   const { userName, rollbar } = useContext(Context);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -53,10 +49,6 @@ const ModalPanel = () => {
     },
   });
 
-  useEffect(() => {
-    if (f.dirty || f.submitCount > 0) setShouldValidate(true);
-  });
-
   const renderFeedback = (field) => {
     if (!f.errors[field]) {
       return null;
@@ -84,10 +76,10 @@ const ModalPanel = () => {
               name="name"
               value={f.values.name}
               readOnly={f.isSubmitting}
-              isInvalid={shouldValidate && f.touched.name && f.errors.name?.key}
+              isInvalid={f.touched.name && f.errors.name?.key}
             />
             <Form.Control.Feedback type="invalid" className="d-block mb-2">
-              {shouldValidate && f.touched.name && renderFeedback('name')}
+              {f.touched.name && renderFeedback('name')}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button onClick={handleHideModal} className="mr-2" variant="secondary">
