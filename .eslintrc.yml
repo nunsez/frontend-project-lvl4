@@ -23,7 +23,6 @@ settings:
 rules:
   max-len: [error, 100]
   import/extensions: 0
-  react/prop-types: 0
   no-console: 0
   functional/no-conditional-statement: 0
   functional/no-expression-statement: 0
