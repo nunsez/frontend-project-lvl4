@@ -31,7 +31,7 @@ const ModalPanel = () => {
       handleHideModal();
     } catch (e) {
       const extra = { userName, inChannel: channelId };
-      rollbar.error('axios remove channel error', e, extra);
+      rollbar.warn('network remove channel error', e, extra);
     }
   };
 

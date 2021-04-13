@@ -43,7 +43,7 @@ const InputTextForm = () => {
         resetForm();
       } catch (e) {
         const extra = { userName, inChannel: currentChannelId };
-        rollbar.error('axios chat error', e, extra);
+        rollbar.warn('network chat error', e, extra);
       } finally {
         inputEl.current.focus();
       }

@@ -48,7 +48,7 @@ const ModalPanel = () => {
         handleHideModal();
       } catch (e) {
         const extra = { userName, inChannel: channelId };
-        rollbar.error('axios rename channel error', e, extra);
+        rollbar.warn('network rename channel error', e, extra);
       }
     },
   });
