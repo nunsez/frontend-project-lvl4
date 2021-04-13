@@ -11,8 +11,9 @@ const channelsSlice = createSlice({
     currentChannelId: generalChannelId,
   },
   reducers: {
-    addChannel: ({ channels }, { payload: { attributes } }) => {
-      channels.push(attributes);
+    addChannel: (state, { payload: { attributes } }) => {
+      state.channels.push(attributes);
+      state.currentChannelId = attributes.id;
     },
     removeChannel: (state, { payload: { id } }) => {
       state.channels = state.channels.filter((c) => (c.removable ? c.id !== id : true));
