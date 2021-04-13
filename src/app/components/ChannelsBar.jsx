@@ -40,7 +40,7 @@ const ChannelsBar = () => {
     dispatch(setCurrentChannelId({ id }));
   };
 
-  const handleOpenModal = ({ id, type, name = null }) => () => {
+  const handleOpenModal = (id) => ({ type, name = null }) => () => {
     dispatch(openModal({ type, extra: { channelId: id, channelName: name } }));
   };
 
@@ -50,13 +50,14 @@ const ChannelsBar = () => {
 
   const ChannelsList = () => (
     <Nav fill className="flex-column" variant="pills">
-      {channels.map((channel) => (
-        <Nav.Item key={channel.id}>
+      {channels.map(({ id, name, removable }) => (
+        <Nav.Item key={id}>
           <ChannelItem
-            channel={channel}
-            handleSwitchChannel={handleSwitchChannel}
-            handleOpenModal={handleOpenModal}
-            getVariant={getVariant}
+            handleSwitchChannel={handleSwitchChannel(id)}
+            handleOpenModal={handleOpenModal(id)}
+            variant={getVariant(id)}
+            removable={removable}
+            name={name}
           />
         </Nav.Item>
       ))}

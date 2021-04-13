@@ -33,21 +33,16 @@ DropdownWrapper.propTypes = {
 
 // prettier-ignore
 const ChannelItem = ({
-  channel, handleSwitchChannel, handleOpenModal, getVariant,
+  name, removable, variant, handleSwitchChannel, handleOpenModal,
 }) => {
-  const { id, name, removable } = channel;
-  const variant = getVariant(id);
-
   const ChannelButton = ({ className }) => (
-    <Nav.Link as={Button} onClick={handleSwitchChannel(id)} className={className} variant={variant}>
+    <Nav.Link as={Button} onClick={handleSwitchChannel} className={className} variant={variant}>
       {name.trim()}
     </Nav.Link>
   );
 
-  Nav.Link.propTypes = {
-    onClick: propTypes.func.isRequired,
+  ChannelButton.propTypes = {
     className: propTypes.string.isRequired,
-    variant: propTypes.oneOf(['primary', 'light']).isRequired,
   };
 
   if (!removable) {
@@ -57,8 +52,8 @@ const ChannelItem = ({
   return (
     <DropdownWrapper
       variant={variant}
-      onRemove={handleOpenModal({ id, type: 'RemoveChannel' })}
-      onRename={handleOpenModal({ id, type: 'RenameChannel', name })}
+      onRemove={handleOpenModal({ type: 'RemoveChannel' })}
+      onRename={handleOpenModal({ type: 'RenameChannel', name })}
     >
       <ChannelButton className="text-left flex-grow-1" />
     </DropdownWrapper>
@@ -66,20 +61,15 @@ const ChannelItem = ({
 };
 
 ChannelItem.defaultProps = {
-  channel: {
-    removable: true,
-  },
+  removable: true,
 };
 
 ChannelItem.propTypes = {
-  channel: propTypes.exact({
-    id: propTypes.number.isRequired,
-    name: propTypes.string.isRequired,
-    removable: propTypes.bool,
-  }),
+  name: propTypes.string.isRequired,
+  removable: propTypes.bool,
+  variant: propTypes.oneOf(['primary', 'light']).isRequired,
   handleSwitchChannel: propTypes.func.isRequired,
   handleOpenModal: propTypes.func.isRequired,
-  getVariant: propTypes.func.isRequired,
 };
 
 export default ChannelItem;
