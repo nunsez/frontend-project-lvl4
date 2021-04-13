@@ -1,13 +1,12 @@
 /* eslint-disable no-param-reassign */
 
 import 'regenerator-runtime/runtime';
-import i18n from 'i18next';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // prettier-ignore
 export const setLanguage = createAsyncThunk(
   'setLanguage',
-  async ({ language }) => {
+  async ({ i18n, language }) => {
     await i18n.changeLanguage(language);
   },
 );
