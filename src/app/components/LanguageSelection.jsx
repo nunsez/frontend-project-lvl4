@@ -4,13 +4,16 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import propTypes from 'prop-types';
 
+import { getAvaibleLanguages } from '../locales';
+
 const renderLanguage = ({ name, tag }) => (
   <option key={tag} value={tag}>{`${name} (${tag.toUpperCase()})`}</option>
 );
 
 const LanguageSelection = ({ onChange }) => {
   const { t } = useTranslation();
-  const { activeLanguage, avaibleLanguages } = useSelector((state) => state.languagesInfo);
+  const { activeLanguage } = useSelector((state) => state.languagesInfo);
+  const avaibleLanguages = getAvaibleLanguages();
 
   return (
     <Form.Group className="mb-4">

@@ -10,18 +10,13 @@ import i18n from 'i18next';
 import faker from 'faker';
 import * as yup from 'yup';
 
-import resources from './app/locales/index.js';
+import resources from './app/locales';
 import rootReducer from './app/reducers';
 import App from './app/components/App.jsx';
 import { addMessage } from './app/reducers/messages.js';
 import { addChannel, removeChannel, renameChannel } from './app/reducers/channels.js';
 import Context from './app/utils/context.js';
 import { getYupFeedback } from './app/utils/validators.js';
-
-const avaibleLanguages = [
-  { name: 'English', tag: 'en' },
-  { name: 'Русский', tag: 'ru' },
-];
 
 const getUserName = () => {
   const userName = Cookies.get('userName') ?? faker.internet.userName();
@@ -63,7 +58,6 @@ export default ({ initialData, container }) => {
     },
     languagesInfo: {
       activeLanguage: i18n.language,
-      avaibleLanguages,
     },
     modalInfo: {
       isOpened: false,

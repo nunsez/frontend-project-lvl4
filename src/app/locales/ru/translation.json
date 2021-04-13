@@ -1,5 +1,6 @@
 {
-  "language": "Русский",
+  "languageName": "Русский",
+  "languageTag": "ru",
   "validation": {
     "required": "Обязательно для заполнения",
     "notOneOf": "Должно быть уникально",

@@ -1,5 +1,6 @@
 {
-  "language": "English",
+  "languageName": "English",
+  "languageTag": "en",
   "validation": {
     "required": "Required",
     "notOneOf": "Must be unique",
