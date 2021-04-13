@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 
 import routes from '../../routes.js';
-import rollbar from '../utils/rollbar.js';
 import { getChatMessagesSchema as validationSchema } from '../utils/validators.js';
 import Context from '../utils/context.js';
 
@@ -22,7 +21,7 @@ const scrollChatToBottom = () => {
 const InputTextForm = () => {
   const { t } = useTranslation();
   const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
-  const { userName } = useContext(Context);
+  const { userName, rollbar } = useContext(Context);
 
   const inputEl = useRef();
   useEffect(() => {

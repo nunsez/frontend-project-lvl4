@@ -11,14 +11,13 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 
 import routes from '../../../routes.js';
-import rollbar from '../../utils/rollbar.js';
 import { getChannelNamesSchema } from '../../utils/validators.js';
 import { closeModal } from '../../reducers/modal.js';
 import Context from '../../utils/context.js';
 
 const ModalPanel = () => {
   const [shouldValidate, setShouldValidate] = useState(false);
-  const { userName } = useContext(Context);
+  const { userName, rollbar } = useContext(Context);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const {

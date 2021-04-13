@@ -17,6 +17,7 @@ import { addMessage } from './app/reducers/messages.js';
 import { addChannel, removeChannel, renameChannel } from './app/reducers/channels.js';
 import Context from './app/utils/context.js';
 import { getYupFeedback } from './app/utils/validators.js';
+import getRollbar from './app/utils/rollbar.js';
 
 const getUserName = () => {
   const userName = Cookies.get('userName') ?? faker.internet.userName();
@@ -83,11 +84,12 @@ export default ({ initialData, container }) => {
   socket.onAny(listener);
 
   const userName = getUserName();
+  const rollbar = getRollbar();
 
   /* eslint-disable comma-dangle */
   render(
     <Provider store={store}>
-      <Context.Provider value={{ userName, i18n }}>
+      <Context.Provider value={{ userName, i18n, rollbar }}>
         <App />
       </Context.Provider>
     </Provider>,
