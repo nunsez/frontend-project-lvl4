@@ -14,4 +14,4 @@ if (process.env.NODE_ENV !== 'production') {
 
 const container = document.querySelector('#chat');
 
-init({ gon, container });
+init({ initialData: gon, container });

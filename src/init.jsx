@@ -30,7 +30,7 @@ const getUserName = () => {
   return userName;
 };
 
-export default ({ gon, container }) => {
+export default ({ initialData, container }) => {
   i18n
     .use(LanguageDetector)
     .use(initReactI18next)
@@ -55,11 +55,11 @@ export default ({ gon, container }) => {
 
   const preloadedState = {
     channelsInfo: {
-      channels: gon.channels,
-      currentChannelId: gon.currentChannelId,
+      channels: initialData.channels,
+      currentChannelId: initialData.currentChannelId,
     },
     messagesInfo: {
-      messages: gon.messages,
+      messages: initialData.messages,
     },
     languagesInfo: {
       activeLanguage: i18n.language,
