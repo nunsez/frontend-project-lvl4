@@ -1,16 +1,13 @@
 // @ts-check
+/* eslint-disable import/no-extraneous-dependencies */
 
-import path from 'path';
-import Dotenv from 'dotenv-webpack';
-import { DefinePlugin } from 'webpack';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
-const mode = process.env.NODE_ENV || 'development';
-const isDev = mode === 'development';
+const path = require('path');
+const Dotenv = require('dotenv-webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  mode,
-  devtool: isDev ? 'inline-source-map' : false,
+  mode: 'development',
+  devtool: 'inline-source-map',
   externals: {
     gon: 'gon',
   },
@@ -29,11 +26,8 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    !isDev && new DefinePlugin({
-      'process.env': JSON.stringify(process.env),
-    }),
-    isDev && new Dotenv({ safe: true, defaults: true }),
-  ].filter(Boolean),
+    new Dotenv({ safe: true, defaults: true }),
+  ],
   module: {
     rules: [
       {

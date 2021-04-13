@@ -7,10 +7,15 @@ start-backend:
 	npx nodemon --exec npx babel-node server/bin/slack.js
 
 start-frontend:
-	npx webpack serve
+	npx webpack serve --config webpack.dev.config.cjs
 
 install-deps:
 	npm ci
+
+refresh-deps:
+	rm package-lock.json
+	rm -rf node_modules
+	npm install
 
 build:
 	npm run build
