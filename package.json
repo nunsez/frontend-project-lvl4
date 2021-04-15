@@ -1,6 +1,6 @@
 {
   "name": "@hexlet/code",
-  "version": "0.7.3",
+  "version": "1.0.0",
   "description": "",
   "main": "src/init.jsx",
   "engines": {
