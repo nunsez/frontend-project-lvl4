@@ -35,6 +35,7 @@ export default async ({ initialData, container }) => {
   } catch (e) {
     const extra = { userName };
     rollbar.warn(e, extra);
+    throw new Error(e);
   }
 
   const preloadedState = {
